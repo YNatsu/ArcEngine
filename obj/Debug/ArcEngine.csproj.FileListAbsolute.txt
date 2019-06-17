@@ -1,0 +1,10 @@
+c:\users\ynats\documents\visual studio 2012\Projects\ArcEngine\ArcEngine\bin\Debug\ArcEngine.exe.config
+c:\users\ynats\documents\visual studio 2012\Projects\ArcEngine\ArcEngine\bin\Debug\ArcEngine.exe
+c:\users\ynats\documents\visual studio 2012\Projects\ArcEngine\ArcEngine\bin\Debug\ArcEngine.pdb
+c:\users\ynats\documents\visual studio 2012\Projects\ArcEngine\ArcEngine\obj\Debug\ArcEngine.csprojResolveAssemblyReference.cache
+c:\users\ynats\documents\visual studio 2012\Projects\ArcEngine\ArcEngine\obj\Debug\ArcEngine.Form1.resources
+c:\users\ynats\documents\visual studio 2012\Projects\ArcEngine\ArcEngine\obj\Debug\ArcEngine.Properties.Resources.resources
+c:\users\ynats\documents\visual studio 2012\Projects\ArcEngine\ArcEngine\obj\Debug\ArcEngine.csproj.GenerateResource.Cache
+c:\users\ynats\documents\visual studio 2012\Projects\ArcEngine\ArcEngine\obj\Debug\ArcEngine.exe
+c:\users\ynats\documents\visual studio 2012\Projects\ArcEngine\ArcEngine\obj\Debug\ArcEngine.pdb
+C:\Users\ynats\documents\visual studio 2012\Projects\ArcEngine\ArcEngine\obj\Debug\ArcEngine.BufferAnalysisForm.resources
