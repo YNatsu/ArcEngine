@@ -8,3 +8,4 @@ c:\users\ynats\documents\visual studio 2012\Projects\ArcEngine\ArcEngine\obj\Deb
 c:\users\ynats\documents\visual studio 2012\Projects\ArcEngine\ArcEngine\obj\Debug\ArcEngine.exe
 c:\users\ynats\documents\visual studio 2012\Projects\ArcEngine\ArcEngine\obj\Debug\ArcEngine.pdb
 C:\Users\ynats\documents\visual studio 2012\Projects\ArcEngine\ArcEngine\obj\Debug\ArcEngine.BufferAnalysisForm.resources
+C:\Users\ynats\documents\visual studio 2012\Projects\ArcEngine\ArcEngine\obj\Debug\ArcEngine.TitleForm.resources

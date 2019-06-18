@@ -30,20 +30,19 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("空间分析工具");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("缓冲区");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("领域分析", new System.Windows.Forms.TreeNode[] {
-            treeNode2});
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("分析工具", new System.Windows.Forms.TreeNode[] {
-            treeNode3});
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("工具箱", new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode4});
+            System.Windows.Forms.TreeNode treeNode41 = new System.Windows.Forms.TreeNode("空间分析工具");
+            System.Windows.Forms.TreeNode treeNode42 = new System.Windows.Forms.TreeNode("缓冲区");
+            System.Windows.Forms.TreeNode treeNode43 = new System.Windows.Forms.TreeNode("领域分析", new System.Windows.Forms.TreeNode[] {
+            treeNode42});
+            System.Windows.Forms.TreeNode treeNode44 = new System.Windows.Forms.TreeNode("分析工具", new System.Windows.Forms.TreeNode[] {
+            treeNode43});
+            System.Windows.Forms.TreeNode treeNode45 = new System.Windows.Forms.TreeNode("工具箱", new System.Windows.Forms.TreeNode[] {
+            treeNode41,
+            treeNode44});
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.编辑ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.视图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.书签ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.插入ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.选择ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
@@ -60,6 +59,11 @@
             this.layerTOCMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.移除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.属性ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.图例ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.指北针ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.比例尺ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.标题ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.符号系统ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
@@ -79,7 +83,6 @@
             this.文件ToolStripMenuItem,
             this.编辑ToolStripMenuItem,
             this.视图ToolStripMenuItem,
-            this.书签ToolStripMenuItem,
             this.插入ToolStripMenuItem,
             this.选择ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -106,14 +109,13 @@
             this.视图ToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
             this.视图ToolStripMenuItem.Text = "视图";
             // 
-            // 书签ToolStripMenuItem
-            // 
-            this.书签ToolStripMenuItem.Name = "书签ToolStripMenuItem";
-            this.书签ToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
-            this.书签ToolStripMenuItem.Text = "书签";
-            // 
             // 插入ToolStripMenuItem
             // 
+            this.插入ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.图例ToolStripMenuItem,
+            this.指北针ToolStripMenuItem,
+            this.比例尺ToolStripMenuItem,
+            this.标题ToolStripMenuItem});
             this.插入ToolStripMenuItem.Name = "插入ToolStripMenuItem";
             this.插入ToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
             this.插入ToolStripMenuItem.Text = "插入";
@@ -192,6 +194,7 @@
             this.axPageLayoutControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axPageLayoutControl1.OcxState")));
             this.axPageLayoutControl1.Size = new System.Drawing.Size(1025, 630);
             this.axPageLayoutControl1.TabIndex = 0;
+            this.axPageLayoutControl1.OnMouseDown += new ESRI.ArcGIS.Controls.IPageLayoutControlEvents_Ax_OnMouseDownEventHandler(this.axPageLayoutControl1_OnMouseDown);
             // 
             // axLicenseControl1
             // 
@@ -206,18 +209,18 @@
             // 
             this.treeView1.Location = new System.Drawing.Point(1775, 105);
             this.treeView1.Name = "treeView1";
-            treeNode1.Name = "spatialAnalystTool";
-            treeNode1.Text = "空间分析工具";
-            treeNode2.Name = "缓冲区";
-            treeNode2.Text = "缓冲区";
-            treeNode3.Name = "领域分析";
-            treeNode3.Text = "领域分析";
-            treeNode4.Name = "analystTool";
-            treeNode4.Text = "分析工具";
-            treeNode5.Name = "toolBox";
-            treeNode5.Text = "工具箱";
+            treeNode41.Name = "spatialAnalystTool";
+            treeNode41.Text = "空间分析工具";
+            treeNode42.Name = "缓冲区";
+            treeNode42.Text = "缓冲区";
+            treeNode43.Name = "领域分析";
+            treeNode43.Text = "领域分析";
+            treeNode44.Name = "analystTool";
+            treeNode44.Text = "分析工具";
+            treeNode45.Name = "toolBox";
+            treeNode45.Text = "工具箱";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode5});
+            treeNode45});
             this.treeView1.Size = new System.Drawing.Size(250, 840);
             this.treeView1.TabIndex = 6;
             this.treeView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeView1_MouseDown);
@@ -240,9 +243,10 @@
             // 
             this.layerTOCMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.移除ToolStripMenuItem,
-            this.属性ToolStripMenuItem});
+            this.属性ToolStripMenuItem,
+            this.符号系统ToolStripMenuItem});
             this.layerTOCMenuStrip.Name = "layerTOCMenuStrip";
-            this.layerTOCMenuStrip.Size = new System.Drawing.Size(109, 52);
+            this.layerTOCMenuStrip.Size = new System.Drawing.Size(153, 98);
             // 
             // 移除ToolStripMenuItem
             // 
@@ -254,9 +258,44 @@
             // 属性ToolStripMenuItem
             // 
             this.属性ToolStripMenuItem.Name = "属性ToolStripMenuItem";
-            this.属性ToolStripMenuItem.Size = new System.Drawing.Size(108, 24);
-            this.属性ToolStripMenuItem.Text = "属性";
+            this.属性ToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.属性ToolStripMenuItem.Text = "属性表";
             this.属性ToolStripMenuItem.Click += new System.EventHandler(this.属性ToolStripMenuItem_Click);
+            // 
+            // 图例ToolStripMenuItem
+            // 
+            this.图例ToolStripMenuItem.Name = "图例ToolStripMenuItem";
+            this.图例ToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.图例ToolStripMenuItem.Text = "图例";
+            this.图例ToolStripMenuItem.Click += new System.EventHandler(this.图例ToolStripMenuItem_Click);
+            // 
+            // 指北针ToolStripMenuItem
+            // 
+            this.指北针ToolStripMenuItem.Name = "指北针ToolStripMenuItem";
+            this.指北针ToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.指北针ToolStripMenuItem.Text = "指北针";
+            this.指北针ToolStripMenuItem.Click += new System.EventHandler(this.指北针ToolStripMenuItem_Click);
+            // 
+            // 比例尺ToolStripMenuItem
+            // 
+            this.比例尺ToolStripMenuItem.Name = "比例尺ToolStripMenuItem";
+            this.比例尺ToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.比例尺ToolStripMenuItem.Text = "比例尺";
+            this.比例尺ToolStripMenuItem.Click += new System.EventHandler(this.比例尺ToolStripMenuItem_Click);
+            // 
+            // 标题ToolStripMenuItem
+            // 
+            this.标题ToolStripMenuItem.Name = "标题ToolStripMenuItem";
+            this.标题ToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.标题ToolStripMenuItem.Text = "标题";
+            this.标题ToolStripMenuItem.Click += new System.EventHandler(this.标题ToolStripMenuItem_Click);
+            // 
+            // 符号系统ToolStripMenuItem
+            // 
+            this.符号系统ToolStripMenuItem.Name = "符号系统ToolStripMenuItem";
+            this.符号系统ToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.符号系统ToolStripMenuItem.Text = "符号系统";
+            this.符号系统ToolStripMenuItem.Click += new System.EventHandler(this.符号系统ToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -297,7 +336,6 @@
         private System.Windows.Forms.ToolStripMenuItem 文件ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 编辑ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 视图ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 书签ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 插入ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 选择ToolStripMenuItem;
         private ESRI.ArcGIS.Controls.AxTOCControl axTOCControl1;
@@ -314,6 +352,11 @@
         private System.Windows.Forms.ContextMenuStrip layerTOCMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem 移除ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 属性ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 图例ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 指北针ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 比例尺ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 标题ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 符号系统ToolStripMenuItem;
     }
 }
 
