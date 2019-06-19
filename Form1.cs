@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.Controls;
@@ -10,6 +11,7 @@ using ESRI.ArcGIS.AnalysisTools;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.Geoprocessor;
 using ESRI.ArcGIS.GeoprocessingUI;
+using ESRI.ArcGIS.Output;
 using stdole;
 using Object = System.Object;
 using Path = System.IO.Path;
@@ -17,9 +19,9 @@ using Path = System.IO.Path;
 
 namespace ArcEngine
 {
-    public partial class Form1 : Form
+    public partial class Main : Form
     {
-        public Form1()
+        public Main()
         {
             InitializeComponent();
 
@@ -502,9 +504,7 @@ namespace ArcEngine
         
         private void 属性ToolStripMenuItem_Click(Object sender, EventArgs e)
         {
-            var command=  new LayerPropertiesCmd();
-            command.OnCreate(_hitLayer);
-            command.OnClick();
+            
         }
 
 //        打开符号系统
@@ -515,6 +515,385 @@ namespace ArcEngine
         }
         
         
+        // 导出地图
+        
+        private void 导出ToolStripMenuItem_Click(Object sender, EventArgs e)
+        {
+            SaveFileDialog mapExportDialog = new SaveFileDialog();
+            
+            mapExportDialog.Filter = "JPEG格式(*.jpg)|*.jpg|EPS格式(*.eps)|*.eps|EMF格式(*.emf)|*.emf|BMP格式(*.bmp)|*.bmp|PDF格式(*.pdf)|*.pdf|TIFF格式(*.tif)|*.tif|PNG格式(*.png)|*.png|SVG格式(*.svg)|*.svg|AI格式(*.ai)|*.ai|所有格式(*.*)|*.*";
+            mapExportDialog.RestoreDirectory = true;
+            
+            if (mapExportDialog.ShowDialog() == DialogResult.OK)
+            {
+                string strLocalFileName = mapExportDialog.FileName;
+                //获取文件路径，不带文件名
+                string strFilePath = strLocalFileName.Substring(0, strLocalFileName.LastIndexOf("\\")+2);
+                //string strFileName = strLocalFileName.Substring(strLocalFileName.LastIndexOf("\\") + 1, strLocalFileName.LastIndexOf(".")-3);
+                String strFileName = Path.GetFileNameWithoutExtension(strLocalFileName);
+                string picType;
+                switch (mapExportDialog.FilterIndex)
+                {
+                    case 1:
+                        picType = "JPEG";
+                        break;
+                    case 2:
+                        picType = "EPS";
+                        break;
+                    case 3:
+                        picType = "EMF";
+                        break;
+                    case 4:
+                        picType = "BMP";
+                        break;
+                    case 5:
+                        picType = "PDF";
+                        break;
+                    case 6:
+                        picType = "TIFF";
+                        break;
+                    case 7:
+                        picType = "PNG";
+                        break;
+                    case 8:
+                        picType = "SVG";
+                        break;
+                    case 9:
+                        picType = "AI";
+                        break;
+                    default:
+                        picType = "EMF";
+                        break;
+                }
+               // MessageBox.Show(picType);
+               ExportActiveViewParameterized(96, 1, picType, strFilePath, strFileName,false, axPageLayoutControl1);
+            }
 
+
+        }
+        
+        [DllImport("GDI32.dll")]
+        public static extern int GetDeviceCaps(int hdc, int nIndex);
+       
+        [DllImport("User32.dll")]
+        public static extern int GetDC(int hWnd);
+        [DllImport("User32.dll")]
+        public static extern int ReleaseDC(int hWnd, int hDC);
+        //[DllImport("user32.dll", SetLastError = true)]
+        //static extern bool SystemParametersInfo(uint uiAction, uint uiParam, IntPtr pvParam, uint fWinIni);
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern bool SystemParametersInfo(uint uiAction, uint uiParam, ref int pvParam, uint fWinIni);
+       
+        const uint SPI_GETFONTSMOOTHING = 74;
+        const uint SPI_SETFONTSMOOTHING = 75;
+        const uint SPIF_UPDATEINIFILE = 0x1;
+        
+        private void ExportActiveViewParameterized(long iOutputResolution, long lResampleRatio, string ExportType, string sOutputDir, string sNameRoot,Boolean bClipToGraphicsExtent, AxPageLayoutControl pageLayoutControl)
+        {
+           
+           
+            //解决文件名错误
+            sNameRoot = sNameRoot.Substring(1, sNameRoot.Length-1);
+            IActiveView docActiveView = pageLayoutControl.ActiveView;
+            IExport docExport;
+            long iPrevOutputImageQuality;
+            IOutputRasterSettings docOutputRasterSettings;
+            IEnvelope PixelBoundsEnv;
+            tagRECT exportRECT;
+            tagRECT DisplayBounds;
+            IDisplayTransformation docDisplayTransformation;
+            IPageLayout docPageLayout;
+            IEnvelope docMapExtEnv;
+            long hdc;
+            long tmpDC;
+            //string sNameRoot;
+            long iScreenResolution;
+            bool bReenable = false;
+ 
+            IEnvelope docGraphicsExtentEnv;
+            IUnitConverter pUnitConvertor;
+            if (GetFontSmoothing())
+            {
+               
+                bReenable = true;
+                DisableFontSmoothing();
+                if (GetFontSmoothing())
+                {
+                    //font smoothing is NOT successfully disabled, error out.
+                    return;
+                }
+                //else font smoothing was successfully disabled.
+            }
+ 
+            // The Export*Class() type initializes a new export class of the desired type.
+            if (ExportType == "PDF")
+            {
+                docExport = new ExportPDFClass();
+            }
+            else if (ExportType == "EPS")
+            {
+                docExport = new ExportPSClass();
+            }
+            else if (ExportType == "AI")
+            {
+                docExport = new ExportAIClass();
+            }
+            else if (ExportType == "BMP")
+            {
+                docExport = new ExportBMPClass();
+            }
+            else if (ExportType == "TIFF")
+            {
+                docExport = new ExportTIFFClass();
+            }
+            else if (ExportType == "SVG")
+            {
+                docExport = new ExportSVGClass();
+            }
+            else if (ExportType == "PNG")
+            {
+                docExport = new ExportPNGClass();
+            }
+            else if (ExportType == "GIF")
+            {
+                docExport = new ExportGIFClass();
+            }
+            else if (ExportType == "EMF")
+            {
+                docExport = new ExportEMFClass();
+            }
+            else if (ExportType == "JPEG")
+            {
+                docExport = new ExportJPEGClass();
+            }
+            else
+            {
+                MessageBox.Show("！！不支持的格式 " + ExportType + ", 默认导出 EMF.");
+                ExportType = "EMF";
+                docExport = new ExportEMFClass();
+            }
+ 
+            //  save the previous output image quality, so that when the export is complete it will be set back.
+            docOutputRasterSettings = docActiveView.ScreenDisplay.DisplayTransformation as IOutputRasterSettings;
+            iPrevOutputImageQuality = docOutputRasterSettings.ResampleRatio;
+ 
+            if (docExport is IExportImage)
+            {
+                // always set the output quality of the DISPLAY to 1 for image export formats
+                SetOutputQuality(docActiveView, 1);
+            }
+            else
+            {
+                // for vector formats, assign the desired ResampleRatio to control drawing of raster layers at export time  
+                SetOutputQuality(docActiveView, lResampleRatio);
+            }
+            //set the name root for the export
+           // sNameRoot = "ExportActiveViewSampleOutput";
+            //set the export filename (which is the nameroot + the appropriate file extension)
+            docExport.ExportFileName = sOutputDir + sNameRoot + "." + docExport.Filter.Split('.')[1].Split('|')[0].Split(')')[0];
+ 
+           
+            tmpDC = GetDC(0);
+           
+            iScreenResolution = GetDeviceCaps((int)tmpDC, 88); //88 is the win32 const for Logical pixels/inch in X)
+           
+            ReleaseDC(0, (int)tmpDC);
+            docExport.Resolution = iOutputResolution;
+ 
+            if (docActiveView is IPageLayout)
+            {
+                //get the bounds of the "exportframe" of the active view.
+                DisplayBounds = docActiveView.ExportFrame;
+                //set up pGraphicsExtent, used if clipping to graphics extent.
+                docGraphicsExtentEnv = GetGraphicsExtent(docActiveView);
+            }
+            else
+            {
+                //Get the bounds of the deviceframe for the screen.
+                docDisplayTransformation = docActiveView.ScreenDisplay.DisplayTransformation;
+                DisplayBounds = docDisplayTransformation.get_DeviceFrame();
+            }
+            PixelBoundsEnv = new Envelope() as IEnvelope;
+            if (bClipToGraphicsExtent && (docActiveView is IPageLayout))
+            {
+                docGraphicsExtentEnv = GetGraphicsExtent(docActiveView);
+                docPageLayout = docActiveView as PageLayout;
+                pUnitConvertor = new UnitConverter();
+                //assign the x and y values representing the clipped area to the PixelBounds envelope
+                PixelBoundsEnv.XMin = 0;
+                PixelBoundsEnv.YMin = 0;
+                PixelBoundsEnv.XMax = pUnitConvertor.ConvertUnits(docGraphicsExtentEnv.XMax, docPageLayout.Page.Units, esriUnits.esriInches) * docExport.Resolution - pUnitConvertor.ConvertUnits(docGraphicsExtentEnv.XMin, docPageLayout.Page.Units, esriUnits.esriInches) * docExport.Resolution;
+                PixelBoundsEnv.YMax = pUnitConvertor.ConvertUnits(docGraphicsExtentEnv.YMax, docPageLayout.Page.Units, esriUnits.esriInches) * docExport.Resolution - pUnitConvertor.ConvertUnits(docGraphicsExtentEnv.YMin, docPageLayout.Page.Units, esriUnits.esriInches) * docExport.Resolution;
+                //'assign the x and y values representing the clipped export extent to the exportRECT
+                exportRECT.bottom = (int)(PixelBoundsEnv.YMax) + 1;
+                exportRECT.left = (int)(PixelBoundsEnv.XMin);
+                exportRECT.top = (int)(PixelBoundsEnv.YMin);
+                exportRECT.right = (int)(PixelBoundsEnv.XMax) + 1;
+                //since we're clipping to graphics extent, set the visible bounds.
+                docMapExtEnv = docGraphicsExtentEnv;
+            }
+            else
+            {
+                double tempratio = iOutputResolution / iScreenResolution;
+                double tempbottom = DisplayBounds.bottom * tempratio;
+                double tempright = DisplayBounds.right * tempratio;
+                //'The values in the exportRECT tagRECT correspond to the width
+                //and height to export, measured in pixels with an origin in the top left corner.
+                exportRECT.bottom = (int)Math.Truncate(tempbottom);
+                exportRECT.left = 0;
+                exportRECT.top = 0;
+                exportRECT.right = (int)Math.Truncate(tempright);
+ 
+                //populate the PixelBounds envelope with the values from exportRECT.
+                // We need to do this because the exporter object requires an envelope object
+                // instead of a tagRECT structure.
+                PixelBoundsEnv.PutCoords(exportRECT.left, exportRECT.top, exportRECT.right, exportRECT.bottom);
+                //since it's a page layout or an unclipped page layout we don't need docMapExtEnv.
+                docMapExtEnv = null;
+            }
+            // Assign the envelope object to the exporter object's PixelBounds property.  The exporter object
+            // will use these dimensions when allocating memory for the export file.
+            docExport.PixelBounds = PixelBoundsEnv;
+            // call the StartExporting method to tell docExport you're ready to start outputting.
+            hdc = docExport.StartExporting();
+            // Redraw the active view, rendering it to the exporter object device context instead of the app display.
+            // We pass the following values:
+            //  * hDC is the device context of the exporter object.
+            //  * exportRECT is the tagRECT structure that describes the dimensions of the view that will be rendered.
+            // The values in exportRECT should match those held in the exporter object's PixelBounds property.
+            //  * docMapExtEnv is an envelope defining the section of the original image to draw into the export object.
+            docActiveView.Output((int)hdc, (int)docExport.Resolution, ref exportRECT, docMapExtEnv, null);
+            //finishexporting, then cleanup.
+            docExport.FinishExporting();
+            docExport.Cleanup();
+            MessageBox.Show("成功导出地图： " + sOutputDir + sNameRoot + "." + docExport.Filter.Split('.')[1].Split('|')[0].Split(')')[0] + ".", "提示");
+            //set the output quality back to the previous value
+            SetOutputQuality(docActiveView, iPrevOutputImageQuality);
+            if (bReenable)
+            {
+               
+                EnableFontSmoothing();
+                bReenable = false;
+                if (!GetFontSmoothing())
+                {
+                    //error: cannot reenable font smoothing.
+                    MessageBox.Show("Unable to reenable Font Smoothing", "Font Smoothing error");
+                }
+            }
+ 
+            docMapExtEnv = null;
+            PixelBoundsEnv = null;
+        }
+        
+        private void SetOutputQuality(IActiveView docActiveView, long iResampleRatio)
+        {
+           
+            IGraphicsContainer oiqGraphicsContainer;
+            IElement oiqElement;
+            IOutputRasterSettings docOutputRasterSettings;
+            IMapFrame docMapFrame;
+            IActiveView TmpActiveView;
+            if (docActiveView is IMap)
+            {
+                docOutputRasterSettings = docActiveView.ScreenDisplay.DisplayTransformation as IOutputRasterSettings;
+                docOutputRasterSettings.ResampleRatio = (int)iResampleRatio;
+            }
+            else if (docActiveView is IPageLayout)
+            {
+                //assign ResampleRatio for PageLayout
+                docOutputRasterSettings = docActiveView.ScreenDisplay.DisplayTransformation as IOutputRasterSettings;
+                docOutputRasterSettings.ResampleRatio = (int)iResampleRatio;
+                //and assign ResampleRatio to the Maps in the PageLayout
+                oiqGraphicsContainer = docActiveView as IGraphicsContainer;
+                oiqGraphicsContainer.Reset();
+                oiqElement = oiqGraphicsContainer.Next();
+                while (oiqElement != null)
+                {
+                    if (oiqElement is IMapFrame)
+                    {
+                        docMapFrame = oiqElement as IMapFrame;
+                        TmpActiveView = docMapFrame.Map as IActiveView;
+                        docOutputRasterSettings = TmpActiveView.ScreenDisplay.DisplayTransformation as IOutputRasterSettings;
+                        docOutputRasterSettings.ResampleRatio = (int)iResampleRatio;
+                    }
+                    oiqElement = oiqGraphicsContainer.Next();
+                }
+                docMapFrame = null;
+                oiqGraphicsContainer = null;
+                TmpActiveView = null;
+            }
+            docOutputRasterSettings = null;
+        }
+        
+        private IEnvelope GetGraphicsExtent(IActiveView docActiveView)
+        {
+           
+            IEnvelope GraphicsBounds;
+            IEnvelope GraphicsEnvelope;
+            IGraphicsContainer oiqGraphicsContainer;
+            IPageLayout docPageLayout;
+            IDisplay GraphicsDisplay;
+            IElement oiqElement;
+            GraphicsBounds = new EnvelopeClass();
+            GraphicsEnvelope = new EnvelopeClass();
+            docPageLayout = docActiveView as IPageLayout;
+            GraphicsDisplay = docActiveView.ScreenDisplay;
+            oiqGraphicsContainer = docActiveView as IGraphicsContainer;
+            oiqGraphicsContainer.Reset();
+            oiqElement = oiqGraphicsContainer.Next();
+            while (oiqElement != null)
+            {
+                oiqElement.QueryBounds(GraphicsDisplay, GraphicsEnvelope);
+                GraphicsBounds.Union(GraphicsEnvelope);
+                oiqElement = oiqGraphicsContainer.Next();
+            }
+            return GraphicsBounds;
+        }
+        
+        private void DisableFontSmoothing()
+        {
+            bool iResult;
+            int pv = 0;
+           
+            iResult = SystemParametersInfo(SPI_SETFONTSMOOTHING, 0, ref pv, SPIF_UPDATEINIFILE);
+        }
+        
+        private void EnableFontSmoothing()
+        {
+            bool iResult;
+            int pv = 0;
+           
+            iResult = SystemParametersInfo(SPI_SETFONTSMOOTHING, 1, ref pv, SPIF_UPDATEINIFILE);
+        }
+        
+        private Boolean GetFontSmoothing()
+        {
+            bool iResult;
+            int pv = 0;
+           
+            iResult = SystemParametersInfo(SPI_GETFONTSMOOTHING, 0, ref pv, 0);
+            if (pv > 0)
+            {
+                //pv > 0 means font smoothing is ON.
+                return true;
+            }
+            else
+            {
+                //pv == 0 means font smoothing is OFF.
+                return false;
+            }
+        }
+
+        private void 按属性选择ToolStripMenuItem_Click(Object sender, EventArgs e)
+        {
+            // https://www.cnblogs.com/dongteng/p/5925120.html
+        }
+
+        private void 按位置选择ToolStripMenuItem_Click(Object sender, EventArgs e)
+        {
+            // https://blog.csdn.net/jhoneyan/article/details/52473470
+        }
+        
+        
     }
 }
