@@ -52,9 +52,6 @@ namespace ArcEngine
             _hitMap = null;
 
             _hitLayer = null;
-            
-
-            
         }
 
         private void axMapControl1_OnMouseDown(object sender,
@@ -105,8 +102,8 @@ namespace ArcEngine
                 }
             }
         }
-        
-        
+
+
         private void 添加数据ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -201,9 +198,8 @@ namespace ArcEngine
         }
 
 
-
 //        工具箱
-        
+
         private void treeView1_MouseDown(Object sender, MouseEventArgs e)
         {
             if ((sender as TreeView) != null)
@@ -215,21 +211,23 @@ namespace ArcEngine
 
                 if (name == "缓冲区")
                 {
+                    
+                    
                     IHookHelper hookHelper = new HookHelperClass();
-                    
+
                     hookHelper.Hook = axMapControl1.Object;
-                    
+
                     BufferAnalysisForm bufferAnalysisForm = new BufferAnalysisForm(hookHelper, addLayer);
-                    
+
                     bufferAnalysisForm.ShowDialog();
-                    
+
                     // http://www.itboth.com/d/MFRRFf/textbox-buffer-arcengine-string-layer
                 }
             }
         }
-        
+
 //        利用 文件路径 为 axMapControl1 添加图层
-        
+
         private void addLayer(string path)
         {
             // GetDirectoryName 方法可以解析出目录名
@@ -239,10 +237,10 @@ namespace ArcEngine
             // GetFileNameWithoutExtension 方法可以解析出
 
             // 不包含扩展名的文件名称（不包含路径名）
-                
+
             string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(path);
-            
-                
+
+
             IWorkspaceFactory shapefileWorkspaceFactory = new ShapefileWorkspaceFactory();
 
             // 调用 OpenFromFile 通过目录名方法打开 Shapefile 数据库
@@ -291,105 +289,98 @@ namespace ArcEngine
         {
             AddLegend(axPageLayoutControl1);
         }
-        
+
 //        图例
-        
-        private void AddLegend(AxPageLayoutControl axPageLayout)  
-        {  
+
+        private void AddLegend(AxPageLayoutControl axPageLayout)
+        {
             //删除已经存在的图例
-            
+
             IElement pElement = axPageLayout.FindElementByName("Legends");
-            
-            if (pElement!=null)
+
+            if (pElement != null)
             {
-                axPageLayout.ActiveView.GraphicsContainer.DeleteElement(pElement);  
-                
+                axPageLayout.ActiveView.GraphicsContainer.DeleteElement(pElement);
             }
-            
-            IActiveView pActiveView = axPageLayout.PageLayout as IActiveView;  
-            IGraphicsContainer container = axPageLayout.PageLayout as IGraphicsContainer;  
+
+            IActiveView pActiveView = axPageLayout.PageLayout as IActiveView;
+            IGraphicsContainer container = axPageLayout.PageLayout as IGraphicsContainer;
             // 获得MapFrame  
-            IMapFrame mapFrame = container.FindFrame(pActiveView.FocusMap) as IMapFrame;  
+            IMapFrame mapFrame = container.FindFrame(pActiveView.FocusMap) as IMapFrame;
             //根据MapSurround的uid，创建相应的MapSurroundFrame和MapSurround  
-            UID uid = new UIDClass();  
-            uid.Value = "esriCarto.Legend";  
-            IMapSurroundFrame mapSurroundFrame = mapFrame.CreateSurroundFrame(uid, null);  
+            UID uid = new UIDClass();
+            uid.Value = "esriCarto.Legend";
+            IMapSurroundFrame mapSurroundFrame = mapFrame.CreateSurroundFrame(uid, null);
             //设置图例的Title  
-            ILegend2 legend = mapSurroundFrame.MapSurround as ILegend2;  
-            legend.Title = "地图图例";  
-            ILegendFormat format = new LegendFormatClass();  
-            ITextSymbol symbol = new TextSymbolClass();  
-            symbol.Size = 4;  
-            format.TitleSymbol = symbol;  
-            legend.Format = format;  
+            ILegend2 legend = mapSurroundFrame.MapSurround as ILegend2;
+            legend.Title = "地图图例";
+            ILegendFormat format = new LegendFormatClass();
+            ITextSymbol symbol = new TextSymbolClass();
+            symbol.Size = 4;
+            format.TitleSymbol = symbol;
+            legend.Format = format;
             //QI，确定mapSurroundFrame的位置  
-            IElement element = mapSurroundFrame as IElement;  
-            IEnvelope envelope = new EnvelopeClass(); 
-            
+            IElement element = mapSurroundFrame as IElement;
+            IEnvelope envelope = new EnvelopeClass();
+
             double x = 3;
             double y = 5;
-            
-            envelope.PutCoords(x, y, x+5, y+5); 
-            element.Geometry = envelope;  
+
+            envelope.PutCoords(x, y, x + 5, y + 5);
+            element.Geometry = envelope;
             //使用IGraphicsContainer接口添加显示  
-            container.AddElement(element, 0);  
-            pActiveView.Refresh();  
-            
-            
-        }  
-        
-        
+            container.AddElement(element, 0);
+            pActiveView.Refresh();
+        }
+
 
         private void 指北针ToolStripMenuItem_Click(Object sender, EventArgs e)
         {
-
             AddNorthArrow(axPageLayoutControl1);
         }
-        
+
 //        指北针
 
         public void AddNorthArrow(AxPageLayoutControl axPageLayout)
         {
-            
             //删除已经存在的指北针
-            
+
             IElement pElement = axPageLayout.FindElementByName("NorthArrows");
-            if (pElement!=null)
+            if (pElement != null)
             {
-                axPageLayout.ActiveView.GraphicsContainer.DeleteElement(pElement);  
+                axPageLayout.ActiveView.GraphicsContainer.DeleteElement(pElement);
             }
 
-            
-            IGraphicsContainer container = axPageLayout.PageLayout as IGraphicsContainer;   
-            IActiveView activeView = axPageLayout.PageLayout as IActiveView;   
+
+            IGraphicsContainer container = axPageLayout.PageLayout as IGraphicsContainer;
+            IActiveView activeView = axPageLayout.PageLayout as IActiveView;
             // 获得MapFrame  
-            IFrameElement frameElement = container.FindFrame(activeView.FocusMap);  
-            IMapFrame mapFrame = frameElement as IMapFrame;  
+            IFrameElement frameElement = container.FindFrame(activeView.FocusMap);
+            IMapFrame mapFrame = frameElement as IMapFrame;
             //根据MapSurround的uid，创建相应的MapSurroundFrame和MapSurround  
-            UID uid = new UIDClass();  
-            uid.Value = "esriCarto.MarkerNorthArrow";  
-            IMapSurroundFrame mapSurroundFrame = mapFrame.CreateSurroundFrame(uid, null);  
+            UID uid = new UIDClass();
+            uid.Value = "esriCarto.MarkerNorthArrow";
+            IMapSurroundFrame mapSurroundFrame = mapFrame.CreateSurroundFrame(uid, null);
             //设置MapSurroundFrame中指北针的点符号  
-            IMapSurround mapSurround = mapSurroundFrame.MapSurround;  
-            IMarkerNorthArrow markerNorthArrow = mapSurround as IMarkerNorthArrow;   
-            IMarkerSymbol markerSymbol = markerNorthArrow.MarkerSymbol;  
-            
-            markerSymbol.Size = 48;  
-            markerNorthArrow.MarkerSymbol = markerSymbol;  
-            
+            IMapSurround mapSurround = mapSurroundFrame.MapSurround;
+            IMarkerNorthArrow markerNorthArrow = mapSurround as IMarkerNorthArrow;
+            IMarkerSymbol markerSymbol = markerNorthArrow.MarkerSymbol;
+
+            markerSymbol.Size = 48;
+            markerNorthArrow.MarkerSymbol = markerSymbol;
+
             //QI，确定mapSurroundFrame的位置  
-            IElement element = mapSurroundFrame as IElement;  
-            IEnvelope envelope = new EnvelopeClass();  
-            
+            IElement element = mapSurroundFrame as IElement;
+            IEnvelope envelope = new EnvelopeClass();
+
             double x = 15;
             double y = 22;
-            
-            envelope.PutCoords(x, y, x+5, y+5);  
-            element.Geometry = envelope;  
+
+            envelope.PutCoords(x, y, x + 5, y + 5);
+            element.Geometry = envelope;
             //使用IGraphicsContainer接口添加显示  
-            container.AddElement(element, 0);  
-            activeView.Refresh();  
-            
+            container.AddElement(element, 0);
+            activeView.Refresh();
         }
 
 
@@ -397,47 +388,46 @@ namespace ArcEngine
         {
             AddScalebar(axPageLayoutControl1);
         }
-        
+
 //        比例尺
-        
-        public void AddScalebar(AxPageLayoutControl axPageLayout)  
-        {  
+
+        public void AddScalebar(AxPageLayoutControl axPageLayout)
+        {
             //删除已经存在的比例尺
-            
+
             IElement pelement = axPageLayout.FindElementByName("AlternatingScaleBar");
-            
-           
-            
+
+
             if (pelement != null)
             {
-                axPageLayout.ActiveView.GraphicsContainer.DeleteElement(pelement);  
+                axPageLayout.ActiveView.GraphicsContainer.DeleteElement(pelement);
             }
-            
-            IGraphicsContainer container = axPageLayout.PageLayout as IGraphicsContainer;   
-            IActiveView activeView = axPageLayout.PageLayout as IActiveView;  
+
+            IGraphicsContainer container = axPageLayout.PageLayout as IGraphicsContainer;
+            IActiveView activeView = axPageLayout.PageLayout as IActiveView;
             // 获得MapFrame  
-            IFrameElement frameElement = container.FindFrame(activeView.FocusMap);  
-            IMapFrame mapFrame = frameElement as IMapFrame;  
+            IFrameElement frameElement = container.FindFrame(activeView.FocusMap);
+            IMapFrame mapFrame = frameElement as IMapFrame;
             //根据MapSurround的uid，创建相应的MapSurroundFrame和MapSurround  
-            UID uid = new UIDClass();  
-            uid.Value = "esriCarto.AlternatingScaleBar";  
-            IMapSurroundFrame mapSurroundFrame = mapFrame.CreateSurroundFrame(uid, null);  
+            UID uid = new UIDClass();
+            uid.Value = "esriCarto.AlternatingScaleBar";
+            IMapSurroundFrame mapSurroundFrame = mapFrame.CreateSurroundFrame(uid, null);
             //设置MapSurroundFrame中比例尺的样式  
-            IMapSurround mapSurround = mapSurroundFrame.MapSurround;  
-            IScaleBar markerScaleBar = ((IScaleBar)mapSurround);  
+            IMapSurround mapSurround = mapSurroundFrame.MapSurround;
+            IScaleBar markerScaleBar = ((IScaleBar) mapSurround);
             markerScaleBar.LabelPosition = esriVertPosEnum.esriBelow;
-            markerScaleBar.UseMapSettings();  
+            markerScaleBar.UseMapSettings();
             //QI，确定mapSurroundFrame的位置  
-            IElement element = mapSurroundFrame as IElement;  
-            IEnvelope envelope = new EnvelopeClass();  
+            IElement element = mapSurroundFrame as IElement;
+            IEnvelope envelope = new EnvelopeClass();
             double x = 12;
             double y = 5;
-            envelope.PutCoords(x, y, x+1, y+1);  
-            element.Geometry = envelope;  
+            envelope.PutCoords(x, y, x + 1, y + 1);
+            element.Geometry = envelope;
             //使用IGraphicsContainer接口添加显示  
-            container.AddElement(element, 0);  
-            activeView.Refresh();  
-        }  
+            container.AddElement(element, 0);
+            activeView.Refresh();
+        }
 
         private void 标题ToolStripMenuItem_Click(Object sender, EventArgs e)
         {
@@ -445,49 +435,47 @@ namespace ArcEngine
 
             titleForm.ShowDialog();
         }
-        
+
 //        标题
-        
+
         private void AddTitle(String title)
         {
             IGraphicsContainer graphicsContainer = axPageLayoutControl1.PageLayout as IGraphicsContainer;
             IEnvelope envelope = new EnvelopeClass();
             double x = 8;
             double y = 22;
-            envelope.PutCoords(x, y, x+5, y+5);
+            envelope.PutCoords(x, y, x + 5, y + 5);
             IRgbColor pColor = new RgbColorClass()
             {
                 Red = 0,
                 Blue = 0,
                 Green = 0
             };
-            
+
             IFontDisp pFont = new StdFont()
             {
                 Name = "宋体",
                 Bold = true
             } as IFontDisp;
-            
+
             ITextSymbol pTextSymbol = new TextSymbolClass()
             {
                 Color = pColor,
                 Font = pFont,
                 Size = 25
             };
-            
+
             ITextElement pTextElement = new TextElementClass()
             {
                 Symbol = pTextSymbol,
                 ScaleText = true,
                 Text = title
             };
-            
+
             IElement element = pTextElement as IElement;
             element.Geometry = envelope;
             graphicsContainer.AddElement(element, 0);
             axPageLayoutControl1.Refresh();
-
-
         }
 
 
@@ -499,36 +487,44 @@ namespace ArcEngine
                 axPageLayoutControl1.Pan();
             }
         }
-        
+
 //        打开属性表
-        
+
         private void 属性ToolStripMenuItem_Click(Object sender, EventArgs e)
         {
+            PropertySheet propertySheet = new PropertySheet();
+            
+            // 传入点击的图层
+            
+            propertySheet.Layer = _hitLayer as IFeatureLayer;
+            
+            propertySheet.ShowDialog();
+
             
         }
 
 //        打开符号系统
-        
+
         private void 符号系统ToolStripMenuItem_Click(Object sender, EventArgs e)
         {
-
         }
-        
-        
+
+
         // 导出地图
-        
+
         private void 导出ToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             SaveFileDialog mapExportDialog = new SaveFileDialog();
-            
-            mapExportDialog.Filter = "JPEG格式(*.jpg)|*.jpg|EPS格式(*.eps)|*.eps|EMF格式(*.emf)|*.emf|BMP格式(*.bmp)|*.bmp|PDF格式(*.pdf)|*.pdf|TIFF格式(*.tif)|*.tif|PNG格式(*.png)|*.png|SVG格式(*.svg)|*.svg|AI格式(*.ai)|*.ai|所有格式(*.*)|*.*";
+
+            mapExportDialog.Filter =
+                "JPEG格式(*.jpg)|*.jpg|EPS格式(*.eps)|*.eps|EMF格式(*.emf)|*.emf|BMP格式(*.bmp)|*.bmp|PDF格式(*.pdf)|*.pdf|TIFF格式(*.tif)|*.tif|PNG格式(*.png)|*.png|SVG格式(*.svg)|*.svg|AI格式(*.ai)|*.ai|所有格式(*.*)|*.*";
             mapExportDialog.RestoreDirectory = true;
-            
+
             if (mapExportDialog.ShowDialog() == DialogResult.OK)
             {
                 string strLocalFileName = mapExportDialog.FileName;
                 //获取文件路径，不带文件名
-                string strFilePath = strLocalFileName.Substring(0, strLocalFileName.LastIndexOf("\\")+2);
+                string strFilePath = strLocalFileName.Substring(0, strLocalFileName.LastIndexOf("\\") + 2);
                 //string strFileName = strLocalFileName.Substring(strLocalFileName.LastIndexOf("\\") + 1, strLocalFileName.LastIndexOf(".")-3);
                 String strFileName = Path.GetFileNameWithoutExtension(strLocalFileName);
                 string picType;
@@ -565,35 +561,35 @@ namespace ArcEngine
                         picType = "EMF";
                         break;
                 }
-               // MessageBox.Show(picType);
-               ExportActiveViewParameterized(96, 1, picType, strFilePath, strFileName,false, axPageLayoutControl1);
+
+                // MessageBox.Show(picType);
+                ExportActiveViewParameterized(96, 1, picType, strFilePath, strFileName, false, axPageLayoutControl1);
             }
-
-
         }
-        
+
         [DllImport("GDI32.dll")]
         public static extern int GetDeviceCaps(int hdc, int nIndex);
-       
+
         [DllImport("User32.dll")]
         public static extern int GetDC(int hWnd);
+
         [DllImport("User32.dll")]
         public static extern int ReleaseDC(int hWnd, int hDC);
+
         //[DllImport("user32.dll", SetLastError = true)]
         //static extern bool SystemParametersInfo(uint uiAction, uint uiParam, IntPtr pvParam, uint fWinIni);
         [DllImport("user32.dll", SetLastError = true)]
         static extern bool SystemParametersInfo(uint uiAction, uint uiParam, ref int pvParam, uint fWinIni);
-       
+
         const uint SPI_GETFONTSMOOTHING = 74;
         const uint SPI_SETFONTSMOOTHING = 75;
         const uint SPIF_UPDATEINIFILE = 0x1;
-        
-        private void ExportActiveViewParameterized(long iOutputResolution, long lResampleRatio, string ExportType, string sOutputDir, string sNameRoot,Boolean bClipToGraphicsExtent, AxPageLayoutControl pageLayoutControl)
+
+        private void ExportActiveViewParameterized(long iOutputResolution, long lResampleRatio, string ExportType,
+            string sOutputDir, string sNameRoot, Boolean bClipToGraphicsExtent, AxPageLayoutControl pageLayoutControl)
         {
-           
-           
             //解决文件名错误
-            sNameRoot = sNameRoot.Substring(1, sNameRoot.Length-1);
+            sNameRoot = sNameRoot.Substring(1, sNameRoot.Length - 1);
             IActiveView docActiveView = pageLayoutControl.ActiveView;
             IExport docExport;
             long iPrevOutputImageQuality;
@@ -609,12 +605,11 @@ namespace ArcEngine
             //string sNameRoot;
             long iScreenResolution;
             bool bReenable = false;
- 
+
             IEnvelope docGraphicsExtentEnv;
             IUnitConverter pUnitConvertor;
             if (GetFontSmoothing())
             {
-               
                 bReenable = true;
                 DisableFontSmoothing();
                 if (GetFontSmoothing())
@@ -622,9 +617,10 @@ namespace ArcEngine
                     //font smoothing is NOT successfully disabled, error out.
                     return;
                 }
+
                 //else font smoothing was successfully disabled.
             }
- 
+
             // The Export*Class() type initializes a new export class of the desired type.
             if (ExportType == "PDF")
             {
@@ -672,11 +668,11 @@ namespace ArcEngine
                 ExportType = "EMF";
                 docExport = new ExportEMFClass();
             }
- 
+
             //  save the previous output image quality, so that when the export is complete it will be set back.
             docOutputRasterSettings = docActiveView.ScreenDisplay.DisplayTransformation as IOutputRasterSettings;
             iPrevOutputImageQuality = docOutputRasterSettings.ResampleRatio;
- 
+
             if (docExport is IExportImage)
             {
                 // always set the output quality of the DISPLAY to 1 for image export formats
@@ -687,19 +683,21 @@ namespace ArcEngine
                 // for vector formats, assign the desired ResampleRatio to control drawing of raster layers at export time  
                 SetOutputQuality(docActiveView, lResampleRatio);
             }
+
             //set the name root for the export
-           // sNameRoot = "ExportActiveViewSampleOutput";
+            // sNameRoot = "ExportActiveViewSampleOutput";
             //set the export filename (which is the nameroot + the appropriate file extension)
-            docExport.ExportFileName = sOutputDir + sNameRoot + "." + docExport.Filter.Split('.')[1].Split('|')[0].Split(')')[0];
- 
-           
+            docExport.ExportFileName =
+                sOutputDir + sNameRoot + "." + docExport.Filter.Split('.')[1].Split('|')[0].Split(')')[0];
+
+
             tmpDC = GetDC(0);
-           
-            iScreenResolution = GetDeviceCaps((int)tmpDC, 88); //88 is the win32 const for Logical pixels/inch in X)
-           
-            ReleaseDC(0, (int)tmpDC);
+
+            iScreenResolution = GetDeviceCaps((int) tmpDC, 88); //88 is the win32 const for Logical pixels/inch in X)
+
+            ReleaseDC(0, (int) tmpDC);
             docExport.Resolution = iOutputResolution;
- 
+
             if (docActiveView is IPageLayout)
             {
                 //get the bounds of the "exportframe" of the active view.
@@ -713,6 +711,7 @@ namespace ArcEngine
                 docDisplayTransformation = docActiveView.ScreenDisplay.DisplayTransformation;
                 DisplayBounds = docDisplayTransformation.get_DeviceFrame();
             }
+
             PixelBoundsEnv = new Envelope() as IEnvelope;
             if (bClipToGraphicsExtent && (docActiveView is IPageLayout))
             {
@@ -722,13 +721,21 @@ namespace ArcEngine
                 //assign the x and y values representing the clipped area to the PixelBounds envelope
                 PixelBoundsEnv.XMin = 0;
                 PixelBoundsEnv.YMin = 0;
-                PixelBoundsEnv.XMax = pUnitConvertor.ConvertUnits(docGraphicsExtentEnv.XMax, docPageLayout.Page.Units, esriUnits.esriInches) * docExport.Resolution - pUnitConvertor.ConvertUnits(docGraphicsExtentEnv.XMin, docPageLayout.Page.Units, esriUnits.esriInches) * docExport.Resolution;
-                PixelBoundsEnv.YMax = pUnitConvertor.ConvertUnits(docGraphicsExtentEnv.YMax, docPageLayout.Page.Units, esriUnits.esriInches) * docExport.Resolution - pUnitConvertor.ConvertUnits(docGraphicsExtentEnv.YMin, docPageLayout.Page.Units, esriUnits.esriInches) * docExport.Resolution;
+                PixelBoundsEnv.XMax =
+                    pUnitConvertor.ConvertUnits(docGraphicsExtentEnv.XMax, docPageLayout.Page.Units,
+                        esriUnits.esriInches) * docExport.Resolution -
+                    pUnitConvertor.ConvertUnits(docGraphicsExtentEnv.XMin, docPageLayout.Page.Units,
+                        esriUnits.esriInches) * docExport.Resolution;
+                PixelBoundsEnv.YMax =
+                    pUnitConvertor.ConvertUnits(docGraphicsExtentEnv.YMax, docPageLayout.Page.Units,
+                        esriUnits.esriInches) * docExport.Resolution -
+                    pUnitConvertor.ConvertUnits(docGraphicsExtentEnv.YMin, docPageLayout.Page.Units,
+                        esriUnits.esriInches) * docExport.Resolution;
                 //'assign the x and y values representing the clipped export extent to the exportRECT
-                exportRECT.bottom = (int)(PixelBoundsEnv.YMax) + 1;
-                exportRECT.left = (int)(PixelBoundsEnv.XMin);
-                exportRECT.top = (int)(PixelBoundsEnv.YMin);
-                exportRECT.right = (int)(PixelBoundsEnv.XMax) + 1;
+                exportRECT.bottom = (int) (PixelBoundsEnv.YMax) + 1;
+                exportRECT.left = (int) (PixelBoundsEnv.XMin);
+                exportRECT.top = (int) (PixelBoundsEnv.YMin);
+                exportRECT.right = (int) (PixelBoundsEnv.XMax) + 1;
                 //since we're clipping to graphics extent, set the visible bounds.
                 docMapExtEnv = docGraphicsExtentEnv;
             }
@@ -739,11 +746,11 @@ namespace ArcEngine
                 double tempright = DisplayBounds.right * tempratio;
                 //'The values in the exportRECT tagRECT correspond to the width
                 //and height to export, measured in pixels with an origin in the top left corner.
-                exportRECT.bottom = (int)Math.Truncate(tempbottom);
+                exportRECT.bottom = (int) Math.Truncate(tempbottom);
                 exportRECT.left = 0;
                 exportRECT.top = 0;
-                exportRECT.right = (int)Math.Truncate(tempright);
- 
+                exportRECT.right = (int) Math.Truncate(tempright);
+
                 //populate the PixelBounds envelope with the values from exportRECT.
                 // We need to do this because the exporter object requires an envelope object
                 // instead of a tagRECT structure.
@@ -751,6 +758,7 @@ namespace ArcEngine
                 //since it's a page layout or an unclipped page layout we don't need docMapExtEnv.
                 docMapExtEnv = null;
             }
+
             // Assign the envelope object to the exporter object's PixelBounds property.  The exporter object
             // will use these dimensions when allocating memory for the export file.
             docExport.PixelBounds = PixelBoundsEnv;
@@ -762,16 +770,17 @@ namespace ArcEngine
             //  * exportRECT is the tagRECT structure that describes the dimensions of the view that will be rendered.
             // The values in exportRECT should match those held in the exporter object's PixelBounds property.
             //  * docMapExtEnv is an envelope defining the section of the original image to draw into the export object.
-            docActiveView.Output((int)hdc, (int)docExport.Resolution, ref exportRECT, docMapExtEnv, null);
+            docActiveView.Output((int) hdc, (int) docExport.Resolution, ref exportRECT, docMapExtEnv, null);
             //finishexporting, then cleanup.
             docExport.FinishExporting();
             docExport.Cleanup();
-            MessageBox.Show("成功导出地图： " + sOutputDir + sNameRoot + "." + docExport.Filter.Split('.')[1].Split('|')[0].Split(')')[0] + ".", "提示");
+            MessageBox.Show(
+                "成功导出地图： " + sOutputDir + sNameRoot + "." + docExport.Filter.Split('.')[1].Split('|')[0].Split(')')[0] +
+                ".", "提示");
             //set the output quality back to the previous value
             SetOutputQuality(docActiveView, iPrevOutputImageQuality);
             if (bReenable)
             {
-               
                 EnableFontSmoothing();
                 bReenable = false;
                 if (!GetFontSmoothing())
@@ -780,14 +789,13 @@ namespace ArcEngine
                     MessageBox.Show("Unable to reenable Font Smoothing", "Font Smoothing error");
                 }
             }
- 
+
             docMapExtEnv = null;
             PixelBoundsEnv = null;
         }
-        
+
         private void SetOutputQuality(IActiveView docActiveView, long iResampleRatio)
         {
-           
             IGraphicsContainer oiqGraphicsContainer;
             IElement oiqElement;
             IOutputRasterSettings docOutputRasterSettings;
@@ -796,13 +804,13 @@ namespace ArcEngine
             if (docActiveView is IMap)
             {
                 docOutputRasterSettings = docActiveView.ScreenDisplay.DisplayTransformation as IOutputRasterSettings;
-                docOutputRasterSettings.ResampleRatio = (int)iResampleRatio;
+                docOutputRasterSettings.ResampleRatio = (int) iResampleRatio;
             }
             else if (docActiveView is IPageLayout)
             {
                 //assign ResampleRatio for PageLayout
                 docOutputRasterSettings = docActiveView.ScreenDisplay.DisplayTransformation as IOutputRasterSettings;
-                docOutputRasterSettings.ResampleRatio = (int)iResampleRatio;
+                docOutputRasterSettings.ResampleRatio = (int) iResampleRatio;
                 //and assign ResampleRatio to the Maps in the PageLayout
                 oiqGraphicsContainer = docActiveView as IGraphicsContainer;
                 oiqGraphicsContainer.Reset();
@@ -813,21 +821,24 @@ namespace ArcEngine
                     {
                         docMapFrame = oiqElement as IMapFrame;
                         TmpActiveView = docMapFrame.Map as IActiveView;
-                        docOutputRasterSettings = TmpActiveView.ScreenDisplay.DisplayTransformation as IOutputRasterSettings;
-                        docOutputRasterSettings.ResampleRatio = (int)iResampleRatio;
+                        docOutputRasterSettings =
+                            TmpActiveView.ScreenDisplay.DisplayTransformation as IOutputRasterSettings;
+                        docOutputRasterSettings.ResampleRatio = (int) iResampleRatio;
                     }
+
                     oiqElement = oiqGraphicsContainer.Next();
                 }
+
                 docMapFrame = null;
                 oiqGraphicsContainer = null;
                 TmpActiveView = null;
             }
+
             docOutputRasterSettings = null;
         }
-        
+
         private IEnvelope GetGraphicsExtent(IActiveView docActiveView)
         {
-           
             IEnvelope GraphicsBounds;
             IEnvelope GraphicsEnvelope;
             IGraphicsContainer oiqGraphicsContainer;
@@ -847,31 +858,32 @@ namespace ArcEngine
                 GraphicsBounds.Union(GraphicsEnvelope);
                 oiqElement = oiqGraphicsContainer.Next();
             }
+
             return GraphicsBounds;
         }
-        
+
         private void DisableFontSmoothing()
         {
             bool iResult;
             int pv = 0;
-           
-            iResult = SystemParametersInfo(SPI_SETFONTSMOOTHING, 0, ref pv, SPIF_UPDATEINIFILE);
+
+            SystemParametersInfo(SPI_SETFONTSMOOTHING, 0, ref pv, SPIF_UPDATEINIFILE);
         }
-        
+
         private void EnableFontSmoothing()
         {
             bool iResult;
             int pv = 0;
-           
-            iResult = SystemParametersInfo(SPI_SETFONTSMOOTHING, 1, ref pv, SPIF_UPDATEINIFILE);
+
+            SystemParametersInfo(SPI_SETFONTSMOOTHING, 1, ref pv, SPIF_UPDATEINIFILE);
         }
-        
+
         private Boolean GetFontSmoothing()
         {
             bool iResult;
             int pv = 0;
-           
-            iResult = SystemParametersInfo(SPI_GETFONTSMOOTHING, 0, ref pv, 0);
+
+            SystemParametersInfo(SPI_GETFONTSMOOTHING, 0, ref pv, 0);
             if (pv > 0)
             {
                 //pv > 0 means font smoothing is ON.
@@ -893,7 +905,5 @@ namespace ArcEngine
         {
             // https://blog.csdn.net/jhoneyan/article/details/52473470
         }
-        
-        
     }
 }

@@ -33,11 +33,11 @@
             this.inputComBox = new System.Windows.Forms.ComboBox();
             this.outputPath = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.linearUnitButton = new System.Windows.Forms.RadioButton();
+            this.propertyButton = new System.Windows.Forms.RadioButton();
             this.bufferDistanceBox = new System.Windows.Forms.TextBox();
             this.unitsComBox = new System.Windows.Forms.ComboBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.propertyBox = new System.Windows.Forms.ComboBox();
             this.确定 = new System.Windows.Forms.Button();
             this.取消 = new System.Windows.Forms.Button();
             this.selectPath = new System.Windows.Forms.Button();
@@ -86,27 +86,27 @@
             this.label3.TabIndex = 4;
             this.label3.Text = "距离";
             // 
-            // radioButton1
+            // linearUnitButton
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(36, 180);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(88, 19);
-            this.radioButton1.TabIndex = 5;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "线性单位";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.linearUnitButton.AutoSize = true;
+            this.linearUnitButton.Location = new System.Drawing.Point(36, 180);
+            this.linearUnitButton.Name = "linearUnitButton";
+            this.linearUnitButton.Size = new System.Drawing.Size(88, 19);
+            this.linearUnitButton.TabIndex = 5;
+            this.linearUnitButton.TabStop = true;
+            this.linearUnitButton.Text = "线性单位";
+            this.linearUnitButton.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // propertyButton
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(36, 245);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(58, 19);
-            this.radioButton2.TabIndex = 6;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "字段";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.propertyButton.AutoSize = true;
+            this.propertyButton.Location = new System.Drawing.Point(36, 245);
+            this.propertyButton.Name = "propertyButton";
+            this.propertyButton.Size = new System.Drawing.Size(58, 19);
+            this.propertyButton.TabIndex = 6;
+            this.propertyButton.TabStop = true;
+            this.propertyButton.Text = "字段";
+            this.propertyButton.UseVisualStyleBackColor = true;
             // 
             // bufferDistanceBox
             // 
@@ -127,16 +127,16 @@
             this.unitsComBox.Size = new System.Drawing.Size(147, 23);
             this.unitsComBox.TabIndex = 8;
             // 
-            // comboBox3
+            // propertyBox
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Items.AddRange(new object[] {
+            this.propertyBox.FormattingEnabled = true;
+            this.propertyBox.Items.AddRange(new object[] {
             "米",
             "千米"});
-            this.comboBox3.Location = new System.Drawing.Point(36, 279);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(587, 23);
-            this.comboBox3.TabIndex = 9;
+            this.propertyBox.Location = new System.Drawing.Point(36, 279);
+            this.propertyBox.Name = "propertyBox";
+            this.propertyBox.Size = new System.Drawing.Size(587, 23);
+            this.propertyBox.TabIndex = 9;
             // 
             // 确定
             // 
@@ -185,11 +185,11 @@
             this.Controls.Add(this.selectPath);
             this.Controls.Add(this.取消);
             this.Controls.Add(this.确定);
-            this.Controls.Add(this.comboBox3);
+            this.Controls.Add(this.propertyBox);
             this.Controls.Add(this.unitsComBox);
             this.Controls.Add(this.bufferDistanceBox);
-            this.Controls.Add(this.radioButton2);
-            this.Controls.Add(this.radioButton1);
+            this.Controls.Add(this.propertyButton);
+            this.Controls.Add(this.linearUnitButton);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.outputPath);
             this.Controls.Add(this.inputComBox);
@@ -210,11 +210,11 @@
         private System.Windows.Forms.ComboBox inputComBox;
         private System.Windows.Forms.TextBox outputPath;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton linearUnitButton;
+        private System.Windows.Forms.RadioButton propertyButton;
         private System.Windows.Forms.TextBox bufferDistanceBox;
         private System.Windows.Forms.ComboBox unitsComBox;
-        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.ComboBox propertyBox;
         private System.Windows.Forms.Button 确定;
         private System.Windows.Forms.Button 取消;
         private System.Windows.Forms.Button selectPath;

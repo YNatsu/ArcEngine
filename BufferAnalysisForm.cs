@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.Controls;
 using ESRI.ArcGIS.esriSystem;
+using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.Geoprocessing;
 using ESRI.ArcGIS.Geoprocessor;
 
@@ -15,6 +16,8 @@ namespace ArcEngine
     
     public partial class BufferAnalysisForm : Form
     {
+        
+        
         private IHookHelper _hookHelper;
 
         private AddLayer _addLayer;
@@ -94,6 +97,31 @@ namespace ArcEngine
         // 执行缓冲区
 
         private void 确定_Click(object sender, EventArgs e)
+        {
+            if (linearUnitButton.Checked)
+            {
+                LinearUnitBuffer();
+            }
+
+            
+            else if(propertyButton.Checked)
+            {
+                PropertyBuffer();
+            }
+
+           
+        }
+
+        private void 取消_Click(object sender, EventArgs e)
+        {
+            
+            Close();
+        }
+        
+        
+        // 线性单位缓冲区
+
+        private void LinearUnitBuffer()
         {
             //修改当前指针样式
             Cursor = Cursors.WaitCursor;
@@ -192,19 +220,26 @@ namespace ArcEngine
             {
                 _addLayer(outputPath.Text);
             }
-
-           
-        }
-
-        private void 取消_Click(object sender, EventArgs e)
-        {
             
-            Close();
         }
+        
+        // 字段缓存区
+
+        private void PropertyBuffer()
+        {
+            // https://www.cnblogs.com/mrmaisg/p/9032601.html
+            
+            Show("slmasfnsa");
+            IBufferConstructionProperties bufferProperties = new BufferConstructionClass();
+            IBufferConstruction bufferConstruction = new BufferConstructionClass();
+            
+        }
+        
         
         private IFeatureLayer GetFeatureLayer(string layerName)
         {
             //get the layers from the maps
+            
             IEnumLayer layers = GetLayers();
             layers.Reset();
 
