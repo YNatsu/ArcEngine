@@ -18,16 +18,13 @@ namespace ArcEngine
         
         private IFeatureLayer _layer;
 
-        public IFeatureLayer Layer
-        {
-            set { _layer = value; }
-        }
-        
         
 
-        public PropertySheet()
+        public PropertySheet(IFeatureLayer layer)
         {
-            InitializeComponent();                     
+            InitializeComponent();
+
+            _layer = layer;
         }
         
         private void PropertySheet_Load(object sender, EventArgs e)

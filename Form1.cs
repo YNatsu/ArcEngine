@@ -492,12 +492,10 @@ namespace ArcEngine
 
         private void 属性ToolStripMenuItem_Click(Object sender, EventArgs e)
         {
-            PropertySheet propertySheet = new PropertySheet();
-            
             // 传入点击的图层
             
-            propertySheet.Layer = _hitLayer as IFeatureLayer;
-            
+            PropertySheet propertySheet = new PropertySheet(_hitLayer as IFeatureLayer);
+                                       
             propertySheet.ShowDialog();
 
             
@@ -581,9 +579,9 @@ namespace ArcEngine
         [DllImport("user32.dll", SetLastError = true)]
         static extern bool SystemParametersInfo(uint uiAction, uint uiParam, ref int pvParam, uint fWinIni);
 
-        const uint SPI_GETFONTSMOOTHING = 74;
-        const uint SPI_SETFONTSMOOTHING = 75;
-        const uint SPIF_UPDATEINIFILE = 0x1;
+        const uint SpiGetfontsmoothing = 74;
+        const uint SpiSetfontsmoothing = 75;
+        const uint SpifUpdateinifile = 0x1;
 
         private void ExportActiveViewParameterized(long iOutputResolution, long lResampleRatio, string ExportType,
             string sOutputDir, string sNameRoot, Boolean bClipToGraphicsExtent, AxPageLayoutControl pageLayoutControl)
@@ -867,7 +865,7 @@ namespace ArcEngine
             bool iResult;
             int pv = 0;
 
-            SystemParametersInfo(SPI_SETFONTSMOOTHING, 0, ref pv, SPIF_UPDATEINIFILE);
+            SystemParametersInfo(SpiSetfontsmoothing, 0, ref pv, SpifUpdateinifile);
         }
 
         private void EnableFontSmoothing()
@@ -875,7 +873,7 @@ namespace ArcEngine
             bool iResult;
             int pv = 0;
 
-            SystemParametersInfo(SPI_SETFONTSMOOTHING, 1, ref pv, SPIF_UPDATEINIFILE);
+            SystemParametersInfo(SpiSetfontsmoothing, 1, ref pv, SpifUpdateinifile);
         }
 
         private Boolean GetFontSmoothing()
@@ -883,7 +881,7 @@ namespace ArcEngine
             bool iResult;
             int pv = 0;
 
-            SystemParametersInfo(SPI_GETFONTSMOOTHING, 0, ref pv, 0);
+            SystemParametersInfo(SpiGetfontsmoothing, 0, ref pv, 0);
             if (pv > 0)
             {
                 //pv > 0 means font smoothing is ON.

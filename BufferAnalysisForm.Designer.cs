@@ -69,6 +69,7 @@
             this.inputComBox.Name = "inputComBox";
             this.inputComBox.Size = new System.Drawing.Size(610, 23);
             this.inputComBox.TabIndex = 2;
+            this.inputComBox.SelectedIndexChanged += new System.EventHandler(this.inputComBox_SelectedIndexChanged);
             // 
             // outputPath
             // 
@@ -107,6 +108,7 @@
             this.propertyButton.TabStop = true;
             this.propertyButton.Text = "字段";
             this.propertyButton.UseVisualStyleBackColor = true;
+            this.propertyButton.CheckedChanged += new System.EventHandler(this.propertyButton_CheckedChanged);
             // 
             // bufferDistanceBox
             // 
@@ -130,9 +132,6 @@
             // propertyBox
             // 
             this.propertyBox.FormattingEnabled = true;
-            this.propertyBox.Items.AddRange(new object[] {
-            "米",
-            "千米"});
             this.propertyBox.Location = new System.Drawing.Point(36, 279);
             this.propertyBox.Name = "propertyBox";
             this.propertyBox.Size = new System.Drawing.Size(587, 23);
@@ -142,7 +141,7 @@
             // 
             this.确定.Location = new System.Drawing.Point(378, 340);
             this.确定.Name = "确定";
-            this.确定.Size = new System.Drawing.Size(75, 23);
+            this.确定.Size = new System.Drawing.Size(75, 33);
             this.确定.TabIndex = 10;
             this.确定.Text = "确定";
             this.确定.UseVisualStyleBackColor = true;
@@ -152,7 +151,7 @@
             // 
             this.取消.Location = new System.Drawing.Point(517, 340);
             this.取消.Name = "取消";
-            this.取消.Size = new System.Drawing.Size(75, 23);
+            this.取消.Size = new System.Drawing.Size(75, 33);
             this.取消.TabIndex = 11;
             this.取消.Text = "取消";
             this.取消.UseVisualStyleBackColor = true;
