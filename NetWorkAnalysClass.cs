@@ -8,6 +8,9 @@ namespace ArcEngine
 {
     public class NetWorkAnalysClass
     {
+        // 有很大问题 是个大坑
+        
+        
         public static string getPath(string path) 
         {
             int t;                                   
