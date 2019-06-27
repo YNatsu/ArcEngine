@@ -12,6 +12,7 @@ using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.Geoprocessor;
 using ESRI.ArcGIS.GeoprocessingUI;
 using ESRI.ArcGIS.Output;
+using ESRI.ArcGIS.SystemUI;
 using stdole;
 using Object = System.Object;
 using Path = System.IO.Path;
@@ -19,9 +20,9 @@ using Path = System.IO.Path;
 
 namespace ArcEngine
 {
-    public partial class Main : Form
+    public partial class MainForm : Form
     {
-        public Main()
+        public MainForm()
         {
             InitializeComponent();
 
@@ -208,11 +209,9 @@ namespace ArcEngine
 
 
                 string name = treeView1.SelectedNode.Name;
-
+                
                 if (name == "缓冲区")
                 {
-                    
-                    
                     IHookHelper hookHelper = new HookHelperClass();
 
                     hookHelper.Hook = axMapControl1.Object;
@@ -222,6 +221,82 @@ namespace ArcEngine
                     bufferAnalysisForm.ShowDialog();
 
                     // http://www.itboth.com/d/MFRRFf/textbox-buffer-arcengine-string-layer
+                }
+
+                else if (name == "擦除")
+                {
+                    IHookHelper hookHelper = new HookHelperClass();
+
+                    hookHelper.Hook = axMapControl1.Object;
+
+                    EraseForm eraseForm = new EraseForm(hookHelper, addLayer);
+
+                    eraseForm.ShowDialog();
+                }
+
+                else if (name == "加载站点")
+                {
+
+                    ICommand pCommand;
+                    pCommand = new AddNetStopsTool();
+                    pCommand.OnCreate(axMapControl1.Object);
+                    axMapControl1.CurrentTool = pCommand as ITool;
+                    
+                }
+                else if (name == "加载障碍点")
+                {
+                    ICommand pCommand;
+                    pCommand = new AddNetBarriesTool();
+                    pCommand.OnCreate(axMapControl1.Object);
+                    axMapControl1.CurrentTool = pCommand as ITool;
+                }
+                else if (name == "最短路径分析")
+                {
+                    ICommand pCommand;
+                    pCommand = new ShortPathSolveCommand();
+                    pCommand.OnCreate(axMapControl1.Object);
+                    pCommand.OnClick();
+                }
+                else if (name == "清除分析")
+                {
+                    axMapControl1.CurrentTool = null;
+                    try
+                    {
+                        IFeatureWorkspace pFWorkspace;
+                        string path = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                        string nameN = NetWorkAnalysClass.getPath(path) + "\\data\\HuanbaoGeodatabase.gdb";
+                        //打开工作空间
+                        pFWorkspace = NetWorkAnalysClass.OpenWorkspace(nameN) as IFeatureWorkspace;
+                        IGraphicsContainer pGrap = axMapControl1.ActiveView as IGraphicsContainer;
+                        pGrap.DeleteAllElements();//删除所添加的图片要素
+                        IFeatureClass inputFClass = pFWorkspace.OpenFeatureClass("Stops");
+                        //删除站点要素
+                        if (inputFClass.FeatureCount(null) > 0)
+                        {
+                            ITable pTable = inputFClass as ITable;
+                            pTable.DeleteSearchedRows(null);                 
+                        }
+                        IFeatureClass barriesFClass = pFWorkspace.OpenFeatureClass("Barries");//删除障碍点要素
+                        if (barriesFClass.FeatureCount(null) > 0)
+                        {
+                            ITable pTable = barriesFClass as ITable;
+                            pTable.DeleteSearchedRows(null);
+                        }
+                        for (int i = 0; i < axMapControl1.LayerCount; i++)//删除分析结果
+                        {
+                            ILayer pLayer = axMapControl1.get_Layer(i);
+                            if (pLayer.Name == ShortPathSolveCommand.m_NAContext.Solver.DisplayName)
+                            {
+                                axMapControl1.DeleteLayer(i);
+                                break;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                    axMapControl1.Refresh();
                 }
             }
         }
@@ -493,12 +568,10 @@ namespace ArcEngine
         private void 属性ToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             // 传入点击的图层
-            
-            PropertySheet propertySheet = new PropertySheet(_hitLayer as IFeatureLayer);
-                                       
-            propertySheet.ShowDialog();
 
-            
+            PropertySheet propertySheet = new PropertySheet(_hitLayer as IFeatureLayer);
+
+            propertySheet.ShowDialog();
         }
 
 //        打开符号系统
@@ -902,6 +975,82 @@ namespace ArcEngine
         private void 按位置选择ToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             // https://blog.csdn.net/jhoneyan/article/details/52473470
+        }
+
+        private void Main_DragEnter(Object sender, DragEventArgs e)
+        {
+            string path = ((System.Array) e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
+            Show(path);
+        }
+
+        /// <summary>
+        /// 打开 mxd 文件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void 打开ToolStripMenuItem_Click(Object sender, EventArgs e)
+        {
+            IMapDocument xjMxdMapDocument = new MapDocumentClass();
+            OpenFileDialog xjMxdOpenFileDialog = new OpenFileDialog();
+            xjMxdOpenFileDialog.Filter = "地图文档(*.mxd)|*.mxd";
+
+            if (xjMxdOpenFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string xjmxdFilePath = xjMxdOpenFileDialog.FileName;
+
+                if (axMapControl1.CheckMxFile(xjmxdFilePath))
+                {
+                    axMapControl1.Map.ClearLayers();
+                    axMapControl1.LoadMxFile(xjmxdFilePath);
+                }
+            }
+
+            axMapControl1.ActiveView.Refresh();
+        }
+
+        /// <summary>
+        ///  保存 mxd 文件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void 保存ToolStripMenuItem_Click(Object sender, EventArgs e)
+        {
+            IMxdContents pMxdC;
+            pMxdC = axMapControl1.Map as IMxdContents;
+            IMapDocument pMapDocument = new MapDocumentClass();
+            pMapDocument.Open(axMapControl1.DocumentFilename, "");
+
+            pMapDocument.ReplaceContents(pMxdC);
+            pMapDocument.Save(true, true);
+        }
+
+        /// <summary>
+        /// 另存为 mdx
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void 另存为ToolStripMenuItem_Click(Object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "地图文档(*.mxd)|*.mxd";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                IMxdContents pMxdC;
+                pMxdC = axMapControl1.Map as IMxdContents;
+                IMapDocument pMapDocument = new MapDocumentClass();
+                pMapDocument.Open(axMapControl1.DocumentFilename, "");
+
+                pMapDocument.ReplaceContents(pMxdC);
+                pMapDocument.SaveAs(saveFileDialog.FileName);
+            }
+        }
+
+        private void 新建ToolStripMenuItem_Click(Object sender, EventArgs e)
+        {
+            MainForm form = new MainForm();
+            form.Show();
+            //Close();
         }
     }
 }

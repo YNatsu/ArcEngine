@@ -30,14 +30,14 @@
         {
             this.components = new System.ComponentModel.Container();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.删除字段ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.操作ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.添加字段ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.删除字段ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            this.menuStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -50,6 +50,20 @@
             this.dataGridView1.Size = new System.Drawing.Size(848, 544);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseUp);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.删除字段ToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 50);
+            // 
+            // 删除字段ToolStripMenuItem
+            // 
+            this.删除字段ToolStripMenuItem.Name = "删除字段ToolStripMenuItem";
+            this.删除字段ToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.删除字段ToolStripMenuItem.Text = "删除字段";
+            this.删除字段ToolStripMenuItem.Click += new System.EventHandler(this.删除字段ToolStripMenuItem_Click);
             // 
             // menuStrip1
             // 
@@ -72,23 +86,9 @@
             // 添加字段ToolStripMenuItem
             // 
             this.添加字段ToolStripMenuItem.Name = "添加字段ToolStripMenuItem";
-            this.添加字段ToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.添加字段ToolStripMenuItem.Size = new System.Drawing.Size(138, 24);
             this.添加字段ToolStripMenuItem.Text = "添加字段";
             this.添加字段ToolStripMenuItem.Click += new System.EventHandler(this.添加字段ToolStripMenuItem_Click);
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.删除字段ToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(139, 28);
-            // 
-            // 删除字段ToolStripMenuItem
-            // 
-            this.删除字段ToolStripMenuItem.Name = "删除字段ToolStripMenuItem";
-            this.删除字段ToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
-            this.删除字段ToolStripMenuItem.Text = "删除字段";
-            this.删除字段ToolStripMenuItem.Click += new System.EventHandler(this.删除字段ToolStripMenuItem_Click);
             // 
             // PropertySheet
             // 
@@ -102,9 +102,9 @@
             this.Text = "PropertySheet";
             this.Load += new System.EventHandler(this.PropertySheet_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
