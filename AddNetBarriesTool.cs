@@ -73,8 +73,8 @@ namespace ArcEngine
         private IHookHelper m_hookHelper = null;
         private IFeatureWorkspace pFWorkspace;
         private IFeatureClass barriesFClass;
-        string path = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-        public AddNetBarriesTool()
+        //string path = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+        public AddNetBarriesTool(string name)
         {
             //
             // TODO: Define values for the public properties
@@ -84,6 +84,7 @@ namespace ArcEngine
             base.m_message = "鼠标在地图上单击即可";  //localizable text
             base.m_toolTip = "添加障碍";  //localizable text
             base.m_name = "AddBarriesTool";   //unique id, non-localizable (e.g. "MyCategory_MyTool")
+            _name = name;
             try
             {
                 //
@@ -132,11 +133,13 @@ namespace ArcEngine
         /// <summary>
         /// Occurs when this tool is clicked
         /// </summary>
+        public string _name;
         public override void OnClick()
         {
             // TODO: Add AddNetBarriesTool.OnClick implementation
-            string name = NetWorkAnalysClass.getPath(path) + "\\data\\HuanbaoGeodatabase.gdb";
-            pFWorkspace = NetWorkAnalysClass.OpenWorkspace(name) as IFeatureWorkspace;
+            //string name = NetWorkAnalysClass.getPath(path) + "\\data\\HuanbaoGeodatabase.gdb";
+            
+            pFWorkspace = NetWorkAnalysClass.OpenWorkspace(_name) as IFeatureWorkspace;
             barriesFClass = pFWorkspace.OpenFeatureClass("Barries");
             if (barriesFClass.FeatureCount(null) > 0)
             {
@@ -178,7 +181,7 @@ namespace ArcEngine
                 IPictureMarkerSymbol pms = new PictureMarkerSymbolClass();
                 pms.BitmapTransparencyColor = pColor;
                 //添加自定义障碍点图片
-                pms.CreateMarkerSymbolFromFile(esriIPictureType.esriIPictureBitmap, NetWorkAnalysClass.getPath(path) + "\\data\\Img\\barries.bmp");
+                pms.CreateMarkerSymbolFromFile(esriIPictureType.esriIPictureBitmap, "..\\..\\..\\Img\\barries.bmp");
                 pms.Size = 18;
                 IMarkerElement pMarkerEle = new MarkerElementClass();
                 pMarkerEle.Symbol = pms as IMarkerSymbol;

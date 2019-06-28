@@ -143,6 +143,12 @@
       <DependentUpon>FormQueryByAttribute.cs</DependentUpon>
     </Compile>
     <Compile Include="NetWorkAnalysClass.cs" />
+    <Compile Include="NetWorkForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NetWorkForm.Designer.cs">
+      <DependentUpon>NetWorkForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertySheet.cs">
@@ -158,7 +164,6 @@
     <Compile Include="Title.Designer.cs">
       <DependentUpon>Title.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tool.cs" />
     <EmbeddedResource Include="AddFieldForm.resx">
       <DependentUpon>AddFieldForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -173,6 +178,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormQueryByAttribute.resx">
       <DependentUpon>FormQueryByAttribute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NetWorkForm.resx">
+      <DependentUpon>NetWorkForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

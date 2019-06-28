@@ -32,7 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("加载站点");
             System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("加载障碍点");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("最短路径分析");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("生成最短路径");
             System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("清除分析");
             System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("最短路径分析", new System.Windows.Forms.TreeNode[] {
             treeNode1,
@@ -325,8 +325,8 @@
             treeNode1.Text = "加载站点";
             treeNode2.Name = "加载障碍点";
             treeNode2.Text = "加载障碍点";
-            treeNode3.Name = "最短路径分析";
-            treeNode3.Text = "最短路径分析";
+            treeNode3.Name = "生成最短路径";
+            treeNode3.Text = "生成最短路径";
             treeNode4.Name = "清除分析";
             treeNode4.Text = "清除分析";
             treeNode5.Name = "最短路径分析";

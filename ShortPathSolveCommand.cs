@@ -74,8 +74,8 @@ namespace ArcEngine
         private INetworkDataset networkDataset;
         private IFeatureClass inputFClass;
         private IFeatureClass barriesFClass;
-        string path = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-        public ShortPathSolveCommand()
+        //string path = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+        public ShortPathSolveCommand(string name, string featureDatasetName, string networkDatasetName)
         {
             //
             // TODO: Define values for the public properties
@@ -86,6 +86,9 @@ namespace ArcEngine
             base.m_toolTip = "NetWorkAnalyst";  
             base.m_name = "ShortPathSolver";
 
+            _name = name;
+            _featureDatasetName = featureDatasetName;
+            _networkDatasetName = networkDatasetName;
             try
             {
                 //
@@ -134,16 +137,21 @@ namespace ArcEngine
         /// <summary>
         /// Occurs when this command is clicked
         /// </summary>
+        private string _name;
+
+        private string _featureDatasetName;
+        private string _networkDatasetName;
+        
         public override void OnClick()
         {
             // TODO: Add ShortPathSolveCommand.OnClick implementation
-            string name = NetWorkAnalysClass.getPath(path) + "\\data\\HuanbaoGeodatabase.gdb";
-            IFeatureWorkspace pFWorkspace = NetWorkAnalysClass.OpenWorkspace(name) as IFeatureWorkspace;
-            //"RouteNetwork", "BaseData"鍙傛暟涓嶅彲鏇存敼
-            networkDataset = NetWorkAnalysClass.OpenPathNetworkDataset(pFWorkspace as IWorkspace, "RouteNetwork", "BaseData");
+            //string name = NetWorkAnalysClass.getPath(path) + "\\data\\HuanbaoGeodatabase.gdb";
+            IFeatureWorkspace pFWorkspace = NetWorkAnalysClass.OpenWorkspace(_name) as IFeatureWorkspace;
+            //"RouteNetwork", "BaseData"参数不可更改
+            networkDataset = NetWorkAnalysClass.OpenPathNetworkDataset(pFWorkspace as IWorkspace, _networkDatasetName, _featureDatasetName);
             m_NAContext = NetWorkAnalysClass.CreatePathSolverContext(networkDataset);
-            //閫氳繃缃戠粶鏁版嵁闆嗗垱寤虹綉缁滃垎鏋愪笂涓嬫枃
-            //鎵撳紑瑕佺礌鏁版嵁闆?
+            //通过网络数据集创建网络分析上下文
+            //打开要素数据集
             inputFClass = pFWorkspace.OpenFeatureClass("Stops");
             barriesFClass = pFWorkspace.OpenFeatureClass("Barries");
             if (IfLayerExist("NetworkDataset") == false)
@@ -177,11 +185,11 @@ namespace ArcEngine
                 return;
             }
             IGPMessages gpMessages = new GPMessagesClass();
-            //鍔犺浇绔欑偣瑕佺礌锛屽苟璁剧疆瀹瑰樊
+            //加载站点要素，并设置容差
             NetWorkAnalysClass.LoadNANetworkLocations("Stops", inputFClass, m_NAContext, 80);
-            //鍔犺浇闅滅鐐硅绱狅紝骞惰缃宸?
+            //加载障碍点要素，并设置容差
             NetWorkAnalysClass.LoadNANetworkLocations("Barriers", barriesFClass, m_NAContext, 5);
-            INASolver naSolver = m_NAContext.Solver;//鍒涘缓缃戠粶鍒嗘瀽瀵硅薄
+            INASolver naSolver = m_NAContext.Solver;//创建网络分析对象
             try
             {
                 naSolver.Solve(m_NAContext, gpMessages, null);
@@ -189,7 +197,7 @@ namespace ArcEngine
             }
             catch (Exception ex)
             {
-                MessageBox.Show("鏈兘鎵惧埌鏈夋晥璺緞" + ex.Message, "鎻愮ず", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                MessageBox.Show("未能找到有效路径" + ex.Message, "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
                 return;
             }
             for (int i = 0; i < m_hookHelper.FocusMap.LayerCount; i++)

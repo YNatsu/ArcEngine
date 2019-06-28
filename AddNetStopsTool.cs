@@ -12,12 +12,17 @@ using ESRI.ArcGIS.Geometry;
 
 namespace ArcEngine
 {
+    
+    
+    
     /// <summary>
     /// Summary description for AddNetStopsTool.
     /// </summary>
     [Guid("e75632d7-6346-49c4-83bb-d0f55cb8a4f0")]
     [ClassInterface(ClassInterfaceType.None)]
     [ProgId("ArcEngine.AddNetStopsTool")]
+    
+    
     public sealed class AddNetStopsTool : BaseTool
     {
         #region COM Registration Function(s)
@@ -74,10 +79,10 @@ namespace ArcEngine
 
         private IFeatureWorkspace pFWorkspace;
         private IFeatureClass inputFClass;
-        private string path = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+        //private string path = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
         
         
-        public AddNetStopsTool()
+        public AddNetStopsTool(string name)
         {
             //
             // TODO: Define values for the public properties
@@ -87,6 +92,8 @@ namespace ArcEngine
             base.m_message = "Mouse click on  the Map";  //localizable text
             base.m_toolTip = "AddStop";  //localizable text
             base.m_name = "AddStop";   //unique id, non-localizable (e.g. "MyCategory_MyTool")
+
+            _name = name;
             try
             {
                 //
@@ -135,11 +142,15 @@ namespace ArcEngine
         /// <summary>
         /// Occurs when this tool is clicked
         /// </summary>
+        private string _name;
+
         public override void OnClick()
         {
             // TODO: Add AddNetStopsTool.OnClick implementation
-            string name = NetWorkAnalysClass.getPath(path) + "\\data\\HuanbaoGeodatabase.gdb";
-            pFWorkspace = NetWorkAnalysClass.OpenWorkspace(name) as IFeatureWorkspace;
+            //string name = NetWorkAnalysClass.getPath(path) + "\\data\\HuanbaoGeodatabase.gdb";
+            pFWorkspace = NetWorkAnalysClass.OpenWorkspace(_name) as IFeatureWorkspace;
+            
+            
             inputFClass = pFWorkspace.OpenFeatureClass("Stops");
             if (inputFClass.FeatureCount(null) > 0)
             {
@@ -183,7 +194,7 @@ namespace ArcEngine
                 pColor = pRgbColor as IColor;
                 IPictureMarkerSymbol pms = new PictureMarkerSymbolClass();
                 pms.BitmapTransparencyColor = pColor;
-                string picturePath = NetWorkAnalysClass.getPath(path) + "\\data\\Img\\stops.bmp";
+                string picturePath = "..\\..\\..\\Img\\stops.bmp";
                 //添加自定义站点图片
                 pms.CreateMarkerSymbolFromFile(esriIPictureType.esriIPictureBitmap, picturePath);
                 pms.Size = 18;

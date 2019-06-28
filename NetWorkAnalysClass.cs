@@ -8,23 +8,6 @@ namespace ArcEngine
 {
     public class NetWorkAnalysClass
     {
-        // 有很大问题 是个大坑
-        
-        
-        public static string getPath(string path) 
-        {
-            int t;                                   
-            for (t = 0; t < path.Length; t++)
-            {
-                
-                if (path.Substring(t, "ArcEngine".Length) == "ArcEngine")
-                {
-                    break;
-                }
-            }
-            string name = path.Substring(0, t - 1) + @"\ArcEngine";
-            return name;         
-        }
         
         //打开工作区间
         public static IWorkspace OpenWorkspace(string strGDBName)

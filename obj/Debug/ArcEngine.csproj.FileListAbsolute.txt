@@ -27,3 +27,4 @@ C:\Users\ynats\Desktop\ArcEngine\ArcEngine\obj\Debug\ArcEngine.PropertySheet.res
 C:\Users\ynats\Desktop\ArcEngine\ArcEngine\obj\Debug\ArcEngine.TitleForm.resources
 C:\Users\ynats\Desktop\ArcEngine\ArcEngine\obj\Debug\ArcEngine.csproj.GenerateResource.Cache
 C:\Users\ynats\Desktop\ArcEngine\ArcEngine\obj\Debug\ArcEngine.MainForm.resources
+C:\Users\ynats\Desktop\ArcEngine\ArcEngine\obj\Debug\ArcEngine.NetWorkForm.resources

@@ -8,6 +8,7 @@ using ESRI.ArcGIS.Display;
 using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.AnalysisTools;
+using ESRI.ArcGIS.DataSourcesGDB;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.Geoprocessor;
 using ESRI.ArcGIS.GeoprocessingUI;
@@ -209,7 +210,7 @@ namespace ArcEngine
 
 
                 string name = treeView1.SelectedNode.Name;
-                
+
                 if (name == "缓冲区")
                 {
                     IHookHelper hookHelper = new HookHelperClass();
@@ -236,53 +237,86 @@ namespace ArcEngine
 
                 else if (name == "加载站点")
                 {
-
+                    if (dataBasePath == null)
+                    {
+                        Show("未选择数据集路径 ！");
+                        return;
+                    }
                     ICommand pCommand;
-                    pCommand = new AddNetStopsTool();
+
+                    pCommand = new AddNetStopsTool(dataBasePath);
+
+
                     pCommand.OnCreate(axMapControl1.Object);
                     axMapControl1.CurrentTool = pCommand as ITool;
-                    
                 }
                 else if (name == "加载障碍点")
                 {
+                    if (dataBasePath == null)
+                    {
+                        Show("未选择数据集路径 ！");
+                        return;
+                    }
+                    
                     ICommand pCommand;
-                    pCommand = new AddNetBarriesTool();
+                    pCommand = new AddNetBarriesTool(dataBasePath);
                     pCommand.OnCreate(axMapControl1.Object);
                     axMapControl1.CurrentTool = pCommand as ITool;
                 }
-                else if (name == "最短路径分析")
+                else if (name == "生成最短路径")
                 {
+                    if (dataBasePath == null)
+                    {
+                        Show("未选择数据集路径 ！");
+                        return;
+                    }
+
+                    if (featureName == null)
+                    {
+                        Show("未选择数据集 ！");
+                        return;
+                    }
+
+                    if (networkName == null)
+                    {
+                        Show("未选择网络数据集 ！");
+                        return;
+                    }
                     ICommand pCommand;
-                    pCommand = new ShortPathSolveCommand();
+
+                    pCommand = new ShortPathSolveCommand(dataBasePath, featureName, networkName);
                     pCommand.OnCreate(axMapControl1.Object);
                     pCommand.OnClick();
                 }
                 else if (name == "清除分析")
                 {
                     axMapControl1.CurrentTool = null;
+
                     try
                     {
                         IFeatureWorkspace pFWorkspace;
-                        string path = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-                        string nameN = NetWorkAnalysClass.getPath(path) + "\\data\\HuanbaoGeodatabase.gdb";
+                        //string path = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+
                         //打开工作空间
-                        pFWorkspace = NetWorkAnalysClass.OpenWorkspace(nameN) as IFeatureWorkspace;
+                        pFWorkspace = NetWorkAnalysClass.OpenWorkspace(dataBasePath) as IFeatureWorkspace;
                         IGraphicsContainer pGrap = axMapControl1.ActiveView as IGraphicsContainer;
-                        pGrap.DeleteAllElements();//删除所添加的图片要素
+                        pGrap.DeleteAllElements(); //删除所添加的图片要素
                         IFeatureClass inputFClass = pFWorkspace.OpenFeatureClass("Stops");
                         //删除站点要素
                         if (inputFClass.FeatureCount(null) > 0)
                         {
                             ITable pTable = inputFClass as ITable;
-                            pTable.DeleteSearchedRows(null);                 
+                            pTable.DeleteSearchedRows(null);
                         }
-                        IFeatureClass barriesFClass = pFWorkspace.OpenFeatureClass("Barries");//删除障碍点要素
+
+                        IFeatureClass barriesFClass = pFWorkspace.OpenFeatureClass("Barries"); //删除障碍点要素
                         if (barriesFClass.FeatureCount(null) > 0)
                         {
                             ITable pTable = barriesFClass as ITable;
                             pTable.DeleteSearchedRows(null);
                         }
-                        for (int i = 0; i < axMapControl1.LayerCount; i++)//删除分析结果
+
+                        for (int i = 0; i < axMapControl1.LayerCount; i++) //删除分析结果
                         {
                             ILayer pLayer = axMapControl1.get_Layer(i);
                             if (pLayer.Name == ShortPathSolveCommand.m_NAContext.Solver.DisplayName)
@@ -296,10 +330,40 @@ namespace ArcEngine
                     {
                         MessageBox.Show(ex.Message);
                     }
+
                     axMapControl1.Refresh();
+                }
+                else if (name == "最短路径分析")
+                {
+                    FolderBrowserDialog dialog = new FolderBrowserDialog();
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        dataBasePath = dialog.SelectedPath;
+                        NetWorkForm netWorkForm = new NetWorkForm(
+                            dataBasePath, setNetWorkPropety
+                        );
+                        netWorkForm.ShowDialog();
+                    }
                 }
             }
         }
+
+        // 最短路径分析 属性
+        string dataBasePath; // 数据集路径  
+        string featureName; // 数据集名称
+        string networkName; // 网路数据集名称
+
+        /// <summary>
+        /// 设置 数据集名称、网路数据集名称
+        /// </summary>
+        /// <param name="featureName"></param>
+        /// <param name="networkName"></param>
+        private void setNetWorkPropety(string featureName, string networkName)
+        {
+            this.featureName = featureName;
+            this.networkName = networkName;
+        }
+
 
 //        利用 文件路径 为 axMapControl1 添加图层
 
