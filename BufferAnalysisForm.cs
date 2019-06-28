@@ -86,6 +86,7 @@ namespace ArcEngine
                     Show(String.Format("未知单位 : {0} ", mapUnit));
                     break;
             }
+
         }
 
         // 执行缓冲区
@@ -251,7 +252,8 @@ namespace ArcEngine
             UID uid = new UIDClass();
 
             uid.Value = "{40A9E885-5533-11d0-98BE-00805F7CED21}";
-            IEnumLayer layers = _hookHelper.FocusMap.get_Layers(uid, true);
+            
+            IEnumLayer layers = _hookHelper.FocusMap.get_Layers(uid);
 
             return layers;
         }
@@ -332,6 +334,11 @@ namespace ArcEngine
             string tempDir = System.IO.Path.GetTempPath();
 
             outputPath.Text = System.IO.Path.Combine(tempDir, ((string) inputComBox.SelectedItem + "_buffer.shp"));
+        }
+
+        private void txtMessages_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

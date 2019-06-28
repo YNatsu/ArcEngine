@@ -1,6 +1,6 @@
 ﻿namespace ArcEngine
 {
-    partial class Main
+    partial class MainForm
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -29,16 +29,34 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("空间分析工具");
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("加载站点");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("加载障碍点");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("生成最短路径");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("清除分析");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("最短路径分析", new System.Windows.Forms.TreeNode[] {
+            treeNode1,
+            treeNode2,
+            treeNode3,
+            treeNode4});
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("网络分析工具", new System.Windows.Forms.TreeNode[] {
+            treeNode5});
             System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("缓冲区");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("领域分析", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("邻域分析", new System.Windows.Forms.TreeNode[] {
             treeNode7});
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("分析工具", new System.Windows.Forms.TreeNode[] {
-            treeNode8});
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("工具箱", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("擦除");
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("标识");
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("相交");
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("叠加分析", new System.Windows.Forms.TreeNode[] {
+            treeNode9,
+            treeNode10,
+            treeNode11});
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("分析工具", new System.Windows.Forms.TreeNode[] {
+            treeNode8,
+            treeNode12});
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("工具箱", new System.Windows.Forms.TreeNode[] {
             treeNode6,
-            treeNode9});
+            treeNode13});
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.新建ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,6 +72,8 @@
             this.比例尺ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.标题ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.选择ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.按属性选择ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.按位置选择ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.axToolbarControl1 = new ESRI.ArcGIS.Controls.AxToolbarControl();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -70,8 +90,6 @@
             this.属性ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.符号系统ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.按属性选择ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.按位置选择ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
@@ -116,24 +134,28 @@
             this.新建ToolStripMenuItem.Name = "新建ToolStripMenuItem";
             this.新建ToolStripMenuItem.Size = new System.Drawing.Size(138, 24);
             this.新建ToolStripMenuItem.Text = "新建";
+            this.新建ToolStripMenuItem.Click += new System.EventHandler(this.新建ToolStripMenuItem_Click);
             // 
             // 打开ToolStripMenuItem
             // 
             this.打开ToolStripMenuItem.Name = "打开ToolStripMenuItem";
             this.打开ToolStripMenuItem.Size = new System.Drawing.Size(138, 24);
             this.打开ToolStripMenuItem.Text = "打开";
+            this.打开ToolStripMenuItem.Click += new System.EventHandler(this.打开ToolStripMenuItem_Click);
             // 
             // 保存ToolStripMenuItem
             // 
             this.保存ToolStripMenuItem.Name = "保存ToolStripMenuItem";
             this.保存ToolStripMenuItem.Size = new System.Drawing.Size(138, 24);
             this.保存ToolStripMenuItem.Text = "保存";
+            this.保存ToolStripMenuItem.Click += new System.EventHandler(this.保存ToolStripMenuItem_Click);
             // 
             // 另存为ToolStripMenuItem
             // 
             this.另存为ToolStripMenuItem.Name = "另存为ToolStripMenuItem";
             this.另存为ToolStripMenuItem.Size = new System.Drawing.Size(138, 24);
             this.另存为ToolStripMenuItem.Text = "另存为";
+            this.另存为ToolStripMenuItem.Click += new System.EventHandler(this.另存为ToolStripMenuItem_Click);
             // 
             // 导出ToolStripMenuItem
             // 
@@ -201,6 +223,20 @@
             this.选择ToolStripMenuItem.Name = "选择ToolStripMenuItem";
             this.选择ToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
             this.选择ToolStripMenuItem.Text = "选择";
+            // 
+            // 按属性选择ToolStripMenuItem
+            // 
+            this.按属性选择ToolStripMenuItem.Name = "按属性选择ToolStripMenuItem";
+            this.按属性选择ToolStripMenuItem.Size = new System.Drawing.Size(153, 24);
+            this.按属性选择ToolStripMenuItem.Text = "按属性选择";
+            this.按属性选择ToolStripMenuItem.Click += new System.EventHandler(this.按属性选择ToolStripMenuItem_Click);
+            // 
+            // 按位置选择ToolStripMenuItem
+            // 
+            this.按位置选择ToolStripMenuItem.Name = "按位置选择ToolStripMenuItem";
+            this.按位置选择ToolStripMenuItem.Size = new System.Drawing.Size(153, 24);
+            this.按位置选择ToolStripMenuItem.Text = "按位置选择";
+            this.按位置选择ToolStripMenuItem.Click += new System.EventHandler(this.按位置选择ToolStripMenuItem_Click);
             // 
             // axTOCControl1
             // 
@@ -285,18 +321,36 @@
             // 
             this.treeView1.Location = new System.Drawing.Point(1775, 105);
             this.treeView1.Name = "treeView1";
+            treeNode1.Name = "加载站点";
+            treeNode1.Text = "加载站点";
+            treeNode2.Name = "加载障碍点";
+            treeNode2.Text = "加载障碍点";
+            treeNode3.Name = "生成最短路径";
+            treeNode3.Text = "生成最短路径";
+            treeNode4.Name = "清除分析";
+            treeNode4.Text = "清除分析";
+            treeNode5.Name = "最短路径分析";
+            treeNode5.Text = "最短路径分析";
             treeNode6.Name = "spatialAnalystTool";
-            treeNode6.Text = "空间分析工具";
+            treeNode6.Text = "网络分析工具";
             treeNode7.Name = "缓冲区";
             treeNode7.Text = "缓冲区";
-            treeNode8.Name = "领域分析";
-            treeNode8.Text = "领域分析";
-            treeNode9.Name = "analystTool";
-            treeNode9.Text = "分析工具";
-            treeNode10.Name = "toolBox";
-            treeNode10.Text = "工具箱";
+            treeNode8.Name = "邻域分析";
+            treeNode8.Text = "邻域分析";
+            treeNode9.Name = "擦除";
+            treeNode9.Text = "擦除";
+            treeNode10.Name = "标识";
+            treeNode10.Text = "标识";
+            treeNode11.Name = "相交";
+            treeNode11.Text = "相交";
+            treeNode12.Name = "叠加分析";
+            treeNode12.Text = "叠加分析";
+            treeNode13.Name = "analystTool";
+            treeNode13.Text = "分析工具";
+            treeNode14.Name = "toolBox";
+            treeNode14.Text = "工具箱";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode10});
+            treeNode14});
             this.treeView1.Size = new System.Drawing.Size(250, 840);
             this.treeView1.TabIndex = 6;
             this.treeView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeView1_MouseDown);
@@ -345,21 +399,7 @@
             this.符号系统ToolStripMenuItem.Text = "符号系统";
             this.符号系统ToolStripMenuItem.Click += new System.EventHandler(this.符号系统ToolStripMenuItem_Click);
             // 
-            // 按属性选择ToolStripMenuItem
-            // 
-            this.按属性选择ToolStripMenuItem.Name = "按属性选择ToolStripMenuItem";
-            this.按属性选择ToolStripMenuItem.Size = new System.Drawing.Size(153, 24);
-            this.按属性选择ToolStripMenuItem.Text = "按属性选择";
-            this.按属性选择ToolStripMenuItem.Click += new System.EventHandler(this.按属性选择ToolStripMenuItem_Click);
-            // 
-            // 按位置选择ToolStripMenuItem
-            // 
-            this.按位置选择ToolStripMenuItem.Name = "按位置选择ToolStripMenuItem";
-            this.按位置选择ToolStripMenuItem.Size = new System.Drawing.Size(153, 24);
-            this.按位置选择ToolStripMenuItem.Text = "按位置选择";
-            this.按位置选择ToolStripMenuItem.Click += new System.EventHandler(this.按位置选择ToolStripMenuItem_Click);
-            // 
-            // Main
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -372,9 +412,10 @@
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Main";
+            this.Name = "MainForm";
             this.Text = "ArcEngine";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Main_DragEnter);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).EndInit();

@@ -12,3 +12,19 @@ C:\Users\ynats\Documents\Visual Studio 2012\Projects\ArcEngine\ArcEngine\obj\Deb
 C:\Users\ynats\documents\visual studio 2012\Projects\ArcEngine\ArcEngine\obj\Debug\ArcEngine.FormQueryByAttribute.resources
 C:\Users\ynats\documents\visual studio 2012\Projects\ArcEngine\ArcEngine\obj\Debug\ArcEngine.PropertySheet.resources
 C:\Users\ynats\documents\visual studio 2012\Projects\ArcEngine\ArcEngine\obj\Debug\ArcEngine.AddFieldForm.resources
+C:\Users\ynats\Documents\Visual Studio 2012\Projects\ArcEngine\ArcEngine\obj\Debug\ArcEngine.EraseForm.resources
+C:\Users\ynats\Desktop\ArcEngine\ArcEngine\obj\Debug\ArcEngine.exe
+C:\Users\ynats\Desktop\ArcEngine\ArcEngine\obj\Debug\ArcEngine.pdb
+C:\Users\ynats\Desktop\ArcEngine\ArcEngine\bin\Debug\ArcEngine.exe
+C:\Users\ynats\Desktop\ArcEngine\ArcEngine\bin\Debug\ArcEngine.pdb
+C:\Users\ynats\Desktop\ArcEngine\ArcEngine\obj\Debug\ArcEngine.csprojResolveAssemblyReference.cache
+C:\Users\ynats\Desktop\ArcEngine\ArcEngine\obj\Debug\ArcEngine.AddFieldForm.resources
+C:\Users\ynats\Desktop\ArcEngine\ArcEngine\obj\Debug\ArcEngine.BufferAnalysisForm.resources
+C:\Users\ynats\Desktop\ArcEngine\ArcEngine\obj\Debug\ArcEngine.EraseForm.resources
+C:\Users\ynats\Desktop\ArcEngine\ArcEngine\obj\Debug\ArcEngine.FormQueryByAttribute.resources
+C:\Users\ynats\Desktop\ArcEngine\ArcEngine\obj\Debug\ArcEngine.Properties.Resources.resources
+C:\Users\ynats\Desktop\ArcEngine\ArcEngine\obj\Debug\ArcEngine.PropertySheet.resources
+C:\Users\ynats\Desktop\ArcEngine\ArcEngine\obj\Debug\ArcEngine.TitleForm.resources
+C:\Users\ynats\Desktop\ArcEngine\ArcEngine\obj\Debug\ArcEngine.csproj.GenerateResource.Cache
+C:\Users\ynats\Desktop\ArcEngine\ArcEngine\obj\Debug\ArcEngine.MainForm.resources
+C:\Users\ynats\Desktop\ArcEngine\ArcEngine\obj\Debug\ArcEngine.NetWorkForm.resources

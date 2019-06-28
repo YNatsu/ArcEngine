@@ -90,6 +90,7 @@
             // linearUnitButton
             // 
             this.linearUnitButton.AutoSize = true;
+            this.linearUnitButton.Checked = true;
             this.linearUnitButton.Location = new System.Drawing.Point(36, 180);
             this.linearUnitButton.Name = "linearUnitButton";
             this.linearUnitButton.Size = new System.Drawing.Size(88, 19);
@@ -105,7 +106,6 @@
             this.propertyButton.Name = "propertyButton";
             this.propertyButton.Size = new System.Drawing.Size(58, 19);
             this.propertyButton.TabIndex = 6;
-            this.propertyButton.TabStop = true;
             this.propertyButton.Text = "字段";
             this.propertyButton.UseVisualStyleBackColor = true;
             this.propertyButton.CheckedChanged += new System.EventHandler(this.propertyButton_CheckedChanged);
@@ -174,6 +174,7 @@
             this.txtMessages.Size = new System.Drawing.Size(622, 96);
             this.txtMessages.TabIndex = 13;
             this.txtMessages.Text = "";
+            this.txtMessages.TextChanged += new System.EventHandler(this.txtMessages_TextChanged);
             // 
             // BufferAnalysisForm
             // 

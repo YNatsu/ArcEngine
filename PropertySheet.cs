@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.Geodatabase;
+using Message = ESRI.ArcGIS.esriSystem.Message;
 
 namespace ArcEngine
 {
@@ -55,7 +56,7 @@ namespace ArcEngine
                 for (int i = 0; i < nFieldCount; i++)
                 {
                     DataColumn fieldDataColumn = new DataColumn {ColumnName = fcLayerIFeatureClass.Fields.Field[i].Name};
-                    
+                   
                     switch (fcLayerIFeatureClass.Fields.Field[i].Type)
                     {
                           case  esriFieldType.esriFieldTypeOID:
@@ -205,6 +206,28 @@ namespace ArcEngine
                                         featureRecDataRow[featureIFeature.Fields.Field[i].Name] =
 
                                             Convert.ToDouble(featureIFeature.Value[i]);
+                                        
+                                        break;
+                                    
+                                    case esriFieldType.esriFieldTypeSingle:
+                                        featureRecDataRow[featureIFeature.Fields.Field[i].Name] =
+
+                                            Convert.ToDouble(featureIFeature.Value[i]);
+                                        
+                                        break;
+                                    
+                                    case esriFieldType.esriFieldTypeSmallInteger:
+                                        
+                                        featureRecDataRow[featureIFeature.Fields.Field[i].Name] =
+
+                                            Convert.ToInt16(featureIFeature.Value[i]);
+                                        
+                                        break;
+                                    
+                                    default:
+                                        featureRecDataRow[featureIFeature.Fields.Field[i].Name] =
+
+                                            Convert.ToString(featureIFeature.Value[i]);
                                         
                                         break;
                                 }     
