@@ -18,6 +18,9 @@
         <e p="BufferAnalysisForm.cs" t="Include" />
         <e p="BufferAnalysisForm.Designer.cs" t="Include" />
         <e p="BufferAnalysisForm.resx" t="Include" />
+        <e p="ClosestFacilityForm.cs" t="Include" />
+        <e p="ClosestFacilityForm.Designer.cs" t="Include" />
+        <e p="ClosestFacilityForm.resx" t="Include" />
         <e p="EraseForm.cs" t="Include" />
         <e p="EraseForm.Designer.cs" t="Include" />
         <e p="EraseForm.resx" t="Include" />
@@ -27,6 +30,9 @@
         <e p="FormQueryByAttribute.cs" t="Include" />
         <e p="FormQueryByAttribute.Designer.cs" t="Include" />
         <e p="FormQueryByAttribute.resx" t="Include" />
+        <e p="LocationAllocationForm.cs" t="Include" />
+        <e p="LocationAllocationForm.Designer.cs" t="Include" />
+        <e p="LocationAllocationForm.resx" t="Include" />
         <e p="NetWorkAnalysClass.cs" t="Include" />
         <e p="NetWorkForm.cs" t="Include" />
         <e p="NetWorkForm.Designer.cs" t="Include" />
@@ -43,6 +49,9 @@
         <e p="PropertySheet.cs" t="Include" />
         <e p="PropertySheet.Designer.cs" t="Include" />
         <e p="PropertySheet.resx" t="Include" />
+        <e p="ServiceAreaForm.cs" t="Include" />
+        <e p="ServiceAreaForm.Designer.cs" t="Include" />
+        <e p="ServiceAreaForm.resx" t="Include" />
         <e p="ShortPathSolveCommand.bmp" t="Include" />
         <e p="ShortPathSolveCommand.cs" t="Include" />
         <e p="Title.cs" t="Include" />
